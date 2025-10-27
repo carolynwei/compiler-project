@@ -1,0 +1,56 @@
+/* Gemini-C 示例程序 4: 结构体和复杂控制流测试 */
+struct Student {
+    int id;
+    int age;
+    float grade;
+};
+
+int findMax(int arr[], int size) {
+    int max = arr[0];
+    for (int i = 1; i < size; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+    return max;
+}
+
+int main() {
+    struct Student students[5];
+    int scores[5] = {85, 92, 78, 96, 88};
+    
+    // 初始化学生信息
+    for (int i = 0; i < 5; i++) {
+        students[i].id = i + 1;
+        students[i].age = 18 + i;
+        students[i].grade = scores[i];
+    }
+    
+    // 查找最高分
+    int maxScore = findMax(scores, 5);
+    
+    // 嵌套循环测试
+    for (int i = 0; i < 5; i++) {
+        for (int j = i + 1; j < 5; j++) {
+            if (students[i].grade < students[j].grade) {
+                // 交换学生信息
+                struct Student temp = students[i];
+                students[i] = students[j];
+                students[j] = temp;
+            }
+        }
+    }
+    
+    // 复杂switch测试
+    int choice = 3;
+    switch (choice) {
+        case 1:
+            return 1;
+        case 2:
+            return 2;
+        case 3:
+            return 3;
+        default:
+            return 0;
+    }
+}

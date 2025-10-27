@@ -1,0 +1,41 @@
+/* Gemini-C 示例程序 5: 错误测试用例 - 语义错误 */
+int main() {
+    int a = 10;
+    int b = 5;
+    
+    // 错误1: 未定义的变量
+    int result = undefined_var;
+    
+    // 错误2: 类型不匹配
+    float f = "hello";
+    
+    // 错误3: 重定义
+    int a = 20;
+    
+    // 错误4: break不在循环中
+    break;
+    
+    // 错误5: continue不在循环中
+    continue;
+    
+    // 错误6: 数组下标类型错误
+    int arr[10];
+    arr["index"] = 5;
+    
+    // 错误7: 除数为零
+    int zero = 0;
+    int div = 10 / zero;
+    
+    // 错误8: 函数调用参数不匹配
+    int func(int x, int y);
+    func(1); // 参数数量不匹配
+    
+    // 错误9: 返回类型不匹配
+    return "string";
+    
+    // 错误10: 结构体成员不存在
+    struct Point p;
+    p.non_existent_field = 10;
+    
+    return 0;
+}

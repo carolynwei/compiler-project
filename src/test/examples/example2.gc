@@ -1,0 +1,41 @@
+/* Gemini-C 示例程序 2: 函数和数组测试 */
+int add(int a, int b) {
+    return a + b;
+}
+
+int multiply(int a, int b) {
+    return a * b;
+}
+
+int factorial(int n) {
+    if (n <= 1) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}
+
+int main() {
+    int numbers[10];
+    int result;
+    
+    // 初始化数组
+    for (int i = 0; i < 10; i++) {
+        numbers[i] = i + 1;
+    }
+    
+    // 测试函数调用
+    result = add(5, 3);
+    result = multiply(result, 2);
+    
+    // 测试递归函数
+    result = factorial(5);
+    
+    // 测试数组操作
+    int sum = 0;
+    for (int i = 0; i < 10; i++) {
+        sum += numbers[i];
+    }
+    
+    return sum;
+}

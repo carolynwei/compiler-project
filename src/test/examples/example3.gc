@@ -1,0 +1,44 @@
+/* Gemini-C 示例程序 3: 复杂表达式和运算符测试 */
+int main() {
+    int a = 10;
+    int b = 5;
+    int c = 3;
+    int result;
+    
+    // 算术运算测试
+    result = a + b * c;
+    result = (a + b) * c;
+    result = a / b + c;
+    result = a % b;
+    
+    // 比较运算测试
+    int isEqual = (a == b);
+    int isNotEqual = (a != b);
+    int isLess = (a < b);
+    int isGreater = (a > b);
+    int isLessEqual = (a <= b);
+    int isGreaterEqual = (a >= b);
+    
+    // 逻辑运算测试
+    int logicalAnd = (a > 0) && (b > 0);
+    int logicalOr = (a < 0) || (b > 0);
+    int logicalNot = !(a > 0);
+    
+    // 自增自减测试
+    a++;
+    ++a;
+    b--;
+    --b;
+    
+    // 复合赋值测试
+    a += b;
+    a -= c;
+    a *= 2;
+    a /= 2;
+    a %= 3;
+    
+    // 条件表达式测试
+    result = (a > b) ? a : b;
+    
+    return result;
+}

@@ -1,0 +1,46 @@
+/* Gemini-C 示例程序 1: 基本语法测试 */
+struct Point {
+    int x;
+    int y;
+};
+
+int main() {
+    int count = 10;
+    float sum = 0.0;
+    int matrix[3][3];
+    
+    struct Point p1;
+    string message = "Hello, Gemini!";
+    
+    p1.x = 1;
+    p1.y = 2;
+    
+    // for循环测试
+    for (int i = 0; i < count; i++) {
+        matrix[i][i] = i * i;
+        sum += (float)i;
+    }
+    
+    // switch语句测试
+    switch (count) {
+        case 10:
+            count++;
+            break;
+        default:
+            count *= 2;
+    }
+    
+    // while语句和break/continue测试
+    while (count > 0) {
+        if (count % 2 == 0) {
+            count--;
+            continue;
+        }
+        if (count == 5) {
+            break;
+        }
+        count -= 1;
+    }
+    
+    return 0;
+}
