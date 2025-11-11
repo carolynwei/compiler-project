@@ -690,6 +690,11 @@ public class SemanticAnalyzer implements ASTVisitor<Void> {
     }
     
     @Override
+    public Void visitCastExpression(CastExpressionNode node) {
+        return null;
+    }
+    
+    @Override
     public Void visitIdentifier(IdentifierNode node) {
         return null;
     }

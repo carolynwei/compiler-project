@@ -10,6 +10,13 @@ import org.antlr.v4.runtime.tree.*;
  */
 public class ASTBuilder extends GeminiCBaseVisitor<ASTNode> {
     
+    /**
+     * 构建 AST 的入口方法
+     */
+    public ASTNode build(org.antlr.v4.runtime.tree.ParseTree tree) {
+        return visit(tree);
+    }
+    
     @Override
     public ASTNode visitProgram(GeminiCParser.ProgramContext ctx) {
         ASTNode[] declarations = new ASTNode[ctx.declaration().size()];
@@ -240,8 +247,26 @@ public class ASTBuilder extends GeminiCBaseVisitor<ASTNode> {
     public ASTNode visitConditionalExpression(GeminiCParser.ConditionalExpressionContext ctx) {
         if (ctx.QUESTION() != null) {
             ExpressionNode condition = (ExpressionNode) visit(ctx.logicalOrExpression());
-            ExpressionNode trueExpression = (ExpressionNode) visit(ctx.expression(0));
-            ExpressionNode falseExpression = (ExpressionNode) visit(ctx.expression(1));
+            
+            // Access the true and false expressions in the conditional expression
+            // Since ctx.expression(int) doesn't exist, try to access them through child nodes
+            ExpressionNode trueExpression = null;
+            ExpressionNode falseExpression = null;
+            
+            // Look for the two expressions after the condition and question mark
+            int exprCount = 0;
+            for (int i = 0; i < ctx.getChildCount(); i++) {
+                if (ctx.getChild(i) instanceof GeminiCParser.ExpressionContext) {
+                    if (exprCount == 0) {
+                        // This should be the true expression (after condition ?)
+                        trueExpression = (ExpressionNode) visit(ctx.getChild(i));
+                    } else if (exprCount == 1) {
+                        // This should be the false expression (after : )
+                        falseExpression = (ExpressionNode) visit(ctx.getChild(i));
+                    }
+                    exprCount++;
+                }
+            }
             
             return new ConditionalExpressionNode(condition, trueExpression, falseExpression,
                 ctx.start.getLine(), ctx.start.getCharPositionInLine());
@@ -320,7 +345,7 @@ public class ASTBuilder extends GeminiCBaseVisitor<ASTNode> {
     public ASTNode visitMultiplicativeExpression(GeminiCParser.MultiplicativeExpressionContext ctx) {
         if (ctx.MULTIPLY() != null || ctx.DIVIDE() != null || ctx.MODULO() != null) {
             ExpressionNode left = (ExpressionNode) visit(ctx.multiplicativeExpression());
-            ExpressionNode right = (ExpressionNode) visit(ctx.unaryExpression());
+            ExpressionNode right = (ExpressionNode) visit(ctx.getChild(ctx.getChildCount()-1)); // Get the last child, which should be the unary expression
             
             MultiplicativeOperator operator = MultiplicativeOperator.MULTIPLY;
             if (ctx.MULTIPLY() != null) operator = MultiplicativeOperator.MULTIPLY;
@@ -329,7 +354,11 @@ public class ASTBuilder extends GeminiCBaseVisitor<ASTNode> {
             
             return new MultiplicativeExpressionNode(left, operator, right, ctx.start.getLine(), ctx.start.getCharPositionInLine());
         } else {
-            return visit(ctx.unaryExpression());
+            // If no operation, just visit the child (which should be unary expression)
+            if (ctx.getChildCount() > 0) {
+                return visit(ctx.getChild(0));
+            }
+            return null;
         }
     }
     
@@ -347,7 +376,11 @@ public class ASTBuilder extends GeminiCBaseVisitor<ASTNode> {
             
             return new UnaryExpressionNode(operator, operand, ctx.start.getLine(), ctx.start.getCharPositionInLine());
         } else {
-            return visit(ctx.postfixExpression());
+            // Handle postfix expressions in unary context
+            if (ctx.getChildCount() > 0) {
+                return visit(ctx.getChild(0));
+            }
+            return null;
         }
     }
     
@@ -383,7 +416,21 @@ public class ASTBuilder extends GeminiCBaseVisitor<ASTNode> {
             return visit(ctx.expression());
         } else {
             // 处理其他情况，如函数调用、数组访问等
-            return visit(ctx.postfixExpression());
+            // 根据上下文选择正确的子节点
+            if (ctx.getChildCount() > 0 && ctx.getChild(0) instanceof GeminiCParser.PostfixExpressionContext) {
+                return visit((GeminiCParser.PostfixExpressionContext) ctx.getChild(0));
+            } else {
+                // 如果没有明确的后缀表达式子节点，访问第一个表达式
+                if (ctx.expression() != null) {
+                    return visit(ctx.expression());
+                } else {
+                    // 如果都没有，尝试按索引访问
+                    if (ctx.getChildCount() > 0) {
+                        return visit(ctx.getChild(0));
+                    }
+                }
+            }
+            return null; // 或者根据具体情况返回合适的值
         }
     }
     

@@ -405,6 +405,135 @@ public class IRGenerator implements ASTVisitor<Void> {
         return null;
     }
     
+    @Override
+    public Void visitType(TypeNode node) {
+        // 类型节点通常不需要生成代码，主要用于语义分析
+        return null;
+    }
+    
+    @Override
+    public Void visitMemberAccess(MemberAccessNode node) {
+        // 结构体成员访问，需要生成相应代码
+        generateExpression(node);
+        return null;
+    }
+    
+    @Override
+    public Void visitArrayAccess(ArrayAccessNode node) {
+        // 数组访问，需要生成相应代码
+        generateExpression(node);
+        return null;
+    }
+    
+    @Override
+    public Void visitFunctionCall(FunctionCallNode node) {
+        // 函数调用，需要生成相应代码
+        generateExpression(node);
+        return null;
+    }
+    
+    @Override
+    public Void visitStringLiteral(StringLiteralNode node) {
+        // 字符串字面量，不需要额外处理
+        return null;
+    }
+    
+    @Override
+    public Void visitCharLiteral(CharLiteralNode node) {
+        // 字符字面量，不需要额外处理
+        return null;
+    }
+    
+    @Override
+    public Void visitFloatLiteral(FloatLiteralNode node) {
+        // 浮点数字面量，不需要额外处理
+        return null;
+    }
+    
+    @Override
+    public Void visitIntLiteral(IntLiteralNode node) {
+        // 整数字面量，不需要额外处理
+        return null;
+    }
+    
+    @Override
+    public Void visitIdentifier(IdentifierNode node) {
+        // 标识符，不需要额外处理
+        return null;
+    }
+    
+    @Override
+    public Void visitCastExpression(CastExpressionNode node) {
+        // 类型转换表达式，不需要额外处理
+        return null;
+    }
+    
+    @Override
+    public Void visitPrimaryExpression(PrimaryExpressionNode node) {
+        // 主表达式，不需要额外处理
+        return null;
+    }
+    
+    @Override
+    public Void visitPostfixExpression(PostfixExpressionNode node) {
+        // 后缀表达式，不需要额外处理
+        return null;
+    }
+    
+    @Override
+    public Void visitUnaryExpression(UnaryExpressionNode node) {
+        // 一元表达式，不需要额外处理
+        return null;
+    }
+    
+    @Override
+    public Void visitMultiplicativeExpression(MultiplicativeExpressionNode node) {
+        // 乘法表达式，不需要额外处理
+        return null;
+    }
+    
+    @Override
+    public Void visitAdditiveExpression(AdditiveExpressionNode node) {
+        // 加法表达式，不需要额外处理
+        return null;
+    }
+    
+    @Override
+    public Void visitRelationalExpression(RelationalExpressionNode node) {
+        // 关系表达式，不需要额外处理
+        return null;
+    }
+    
+    @Override
+    public Void visitEqualityExpression(EqualityExpressionNode node) {
+        // 相等性表达式，不需要额外处理
+        return null;
+    }
+    
+    @Override
+    public Void visitLogicalAndExpression(LogicalAndExpressionNode node) {
+        // 逻辑与表达式，不需要额外处理
+        return null;
+    }
+    
+    @Override
+    public Void visitLogicalOrExpression(LogicalOrExpressionNode node) {
+        // 逻辑或表达式，不需要额外处理
+        return null;
+    }
+    
+    @Override
+    public Void visitConditionalExpression(ConditionalExpressionNode node) {
+        // 束件表达式，不需要额外处理
+        return null;
+    }
+    
+    @Override
+    public Void visitAssignmentExpression(AssignmentExpressionNode node) {
+        // 赋值表达式，不需要额外处理
+        return null;
+    }
+    
     // ==================== 表达式代码生成 ====================
     
     /**
@@ -740,6 +869,12 @@ public class IRGenerator implements ASTVisitor<Void> {
         @Override
         public String visitPrimaryExpression(PrimaryExpressionNode node) {
             // 主表达式的处理
+            return null;
+        }
+        
+        @Override
+        public String visitCastExpression(CastExpressionNode node) {
+            // 类型转换表达式的处理
             return null;
         }
         

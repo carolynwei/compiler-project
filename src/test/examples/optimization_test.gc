@@ -1,0 +1,41 @@
+// 优化测试用例
+// 用于测试编译器的代码优化功能
+
+int main() {
+    // 测试1: 常量折叠
+    // 期望: t1 = 2 + 3 应该被优化为 t1 = 5
+    int a = 2 + 3;
+    int b = 10 - 5;
+    int c = 4 * 6;
+    int d = 20 / 4;
+    
+    // 测试2: 公共子表达式消除
+    // 期望: x * y 只计算一次
+    int x = 5;
+    int y = 10;
+    int result1 = x * y;
+    int result2 = x * y;  // 应该重用 result1 的计算结果
+    
+    // 测试3: 常量传播
+    // 期望: 常量值应该被传播
+    int constant = 42;
+    int sum = constant + 8;  // 应该被优化为 sum = 50
+    
+    // 测试4: 死代码消除
+    // 期望: 不可达代码应该被删除
+    if (0) {
+        int dead = 100;  // 这行代码应该被优化掉
+    }
+    
+    // 测试5: 循环优化
+    // 期望: 循环不变式应该被外提
+    int n = 10;
+    int invariant = 5 * 3;  // 循环不变式
+    int i;
+    for (i = 0; i < n; i++) {
+        int temp = invariant + i;  // invariant 应该被外提
+    }
+    
+    return 0;
+}
+
