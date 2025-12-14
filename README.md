@@ -344,7 +344,7 @@ exp-design/
 | [POINTER_ARITHMETIC.md](docs/POINTER_ARITHMETIC.md) | 指针运算支持 |
 | [OPTIMIZER.md](docs/OPTIMIZER.md) | 代码优化 |
 | [TEST_SUMMARY.md](docs/TEST_SUMMARY.md) | 测试用例 |
-| [Symbol_Table_Snapshot.md(./Symbol_Table_Snapshot.md] | 符号表快照|
+| [Symbol_Table_Snapshot.md](Symbol_Table_Snapshot.md) | 符号表快照|
 
 ---
 
@@ -353,6 +353,7 @@ exp-design/
 - **版本**: 1.0.0
 - **状态**: ✅ 核心编译功能完成
 - **最后更新**: 2025年12月14日
+
 
 
 
