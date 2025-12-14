@@ -1,0 +1,113 @@
+Program
+  FunctionDeclaration: main
+    Type: int
+    Block
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: a
+          IntLiteral: 10
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: b
+          IntLiteral: 5
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: c
+          IntLiteral: 3
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: result
+      ExpressionStatement
+        AssignmentExpression: =
+          Identifier: result
+          Identifier: c
+      ExpressionStatement
+        AssignmentExpression: =
+          Identifier: result
+          Identifier: c
+      ExpressionStatement
+        AssignmentExpression: =
+          Identifier: result
+          Identifier: c
+      ExpressionStatement
+        AssignmentExpression: =
+          Identifier: result
+          Identifier: b
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: isEqual
+          Identifier: b
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: isNotEqual
+          Identifier: b
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: isLess
+          Identifier: b
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: isGreater
+          Identifier: b
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: isLessEqual
+          Identifier: b
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: isGreaterEqual
+          Identifier: b
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: logicalAnd
+          IntLiteral: 0
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: logicalOr
+          IntLiteral: 0
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: logicalNot
+          UnaryExpression: !
+            IntLiteral: 0
+      ExpressionStatement
+        PostfixExpression: ++
+          Identifier: a
+      ExpressionStatement
+        UnaryExpression: ++
+          Identifier: a
+      ExpressionStatement
+        PostfixExpression: --
+          Identifier: b
+      ExpressionStatement
+        UnaryExpression: --
+          Identifier: b
+      ExpressionStatement
+        AssignmentExpression: +=
+          Identifier: a
+          Identifier: b
+      ExpressionStatement
+        AssignmentExpression: -=
+          Identifier: a
+          Identifier: c
+      ExpressionStatement
+        AssignmentExpression: *=
+          Identifier: a
+          IntLiteral: 2
+      ExpressionStatement
+        AssignmentExpression: /=
+          Identifier: a
+          IntLiteral: 2
+      ExpressionStatement
+        AssignmentExpression: %=
+          Identifier: a
+          IntLiteral: 3
+      ExpressionStatement
+        AssignmentExpression: =
+          Identifier: result
+          ConditionalExpression
+            Identifier: b
+            Identifier: a
+            Identifier: b
+      ReturnStatement
+        Identifier: result

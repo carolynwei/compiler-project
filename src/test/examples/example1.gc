@@ -1,4 +1,4 @@
-/* Gemini-C 示例程序 1: 基本语法测试 */
+/* wei-C 示例程序 1: 基本语法测试 */
 struct Point {
     int x;
     int y;
@@ -10,7 +10,7 @@ int main() {
     int matrix[3][3];
     
     struct Point p1;
-    string message = "Hello, Gemini!";
+    // string message = "Hello, wei!";  // 注释：string类型测试
     
     p1.x = 1;
     p1.y = 2;

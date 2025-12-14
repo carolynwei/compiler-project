@@ -1,0 +1,95 @@
+Program
+  FunctionDeclaration: add
+    Type: int
+    Parameter: a
+      Type: int
+    Parameter: b
+      Type: int
+    Block
+      ReturnStatement
+        Identifier: b
+  FunctionDeclaration: multiply
+    Type: int
+    Parameter: a
+      Type: int
+    Parameter: b
+      Type: int
+    Block
+      ReturnStatement
+        Identifier: b
+  FunctionDeclaration: factorial
+    Type: int
+    Parameter: n
+      Type: int
+    Block
+      IfStatement
+        IntLiteral: 1
+        Block
+          ReturnStatement
+            IntLiteral: 1
+        Block
+          ReturnStatement
+            FunctionCall: factorial
+              IntLiteral: 1
+  FunctionDeclaration: main
+    Type: int
+    Block
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: numbers
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: result
+      ForStatement
+        VariableDeclaration
+          Type: int
+          VariableDeclarator: i
+            IntLiteral: 0
+        IntLiteral: 10
+        PostfixExpression: ++
+          Identifier: i
+        Block
+          ExpressionStatement
+            AssignmentExpression: =
+              ArrayAccess
+                Identifier: numbers
+                Identifier: i
+              IntLiteral: 1
+      ExpressionStatement
+        AssignmentExpression: =
+          Identifier: result
+          FunctionCall: add
+            IntLiteral: 5
+            IntLiteral: 3
+      ExpressionStatement
+        AssignmentExpression: =
+          Identifier: result
+          FunctionCall: multiply
+            Identifier: result
+            IntLiteral: 2
+      ExpressionStatement
+        AssignmentExpression: =
+          Identifier: result
+          FunctionCall: factorial
+            IntLiteral: 5
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: sum
+          IntLiteral: 0
+      ForStatement
+        VariableDeclaration
+          Type: int
+          VariableDeclarator: i
+            IntLiteral: 0
+        IntLiteral: 10
+        PostfixExpression: ++
+          Identifier: i
+        Block
+          ExpressionStatement
+            AssignmentExpression: +=
+              Identifier: sum
+              ArrayAccess
+                Identifier: numbers
+                Identifier: i
+      ReturnStatement
+        Identifier: sum

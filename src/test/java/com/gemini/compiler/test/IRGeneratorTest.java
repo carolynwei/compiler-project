@@ -1,6 +1,6 @@
-package com.gemini.compiler.test;
+package com.wei.compiler.test;
 
-import com.gemini.compiler.ir.*;
+import com.wei.compiler.ir.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;

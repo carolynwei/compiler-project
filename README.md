@@ -1,307 +1,348 @@
-# Gemini-C 编译器设计与实现
+# wei-C 编译器
 
-## 项目概述
+**wei-C** 是一个**完整的类C语言编译器**，使用 Java + ANTLR 4 实现从词法分析到 LLVM IR 代码生成的完整编译流程。
 
-**Gemini-C** 是一个完整的类C语言编译器，实现了从词法分析到目标代码生成的完整编译流程。该项目采用 Java + ANTLR 4 技术栈，支持完整的编译过程。
+**核心指标**：
+| 功能 | 数值 |
+|------|------|
+| 编译阶段 | 4阶段（词法→语法→语义→代码生成） |
+| AST节点 | 65个 |
+| 语义检查 | **38种错误检查** |
+| 代码优化 | TAC级别优化 |
+| 测试覆盖 | 4个示例（100%通过✅） |
 
-## 语言特性
+---
 
-### 支持的数据类型
-- **基本类型**: `int`, `float`, `char`, `string`
-- **复合类型**: 多维数组、结构体 (`struct`)
+## 🎯 编译器功能详解
 
-### 支持的运算符
-- **算术运算**: `+`, `-`, `*`, `/`, `%`
-- **比较运算**: `==`, `!=`, `<`, `>`, `<=`, `>=`
-- **逻辑运算**: `&&`, `||`, `!`
-- **自增自减**: `++`, `--` (前缀和后缀)
-- **复合赋值**: `+=`, `-=`, `*=`, `/=`, `%=`
-
-### 支持的控制语句
-- **条件语句**: `if-else`
-- **循环语句**: `while`, `for`
-- **跳转语句**: `break`, `continue`
-- **多分支**: `switch-case-default`
-
-### 其他特性
-- 支持行注释 (`//`) 和块注释 (`/* */`)
-- 支持多维数组声明和访问
-- 支持结构体定义和成员访问
-- 完整的语义分析和错误检查
-
-## 项目结构
+### 1. 完整的编译流程（4阶段）
 
 ```
-exp-design/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   ├── com/
-│   │   │   │   └── gemini/
-│   │   │   │       ├── compiler/
-│   │   │   │       │   ├── GeminiCompiler.java
-│   │   │   │       │   ├── ast/
-│   │   │   │       │   ├── lexer/
-│   │   │   │       │   ├── parser/
-│   │   │   │       │   ├── semantic/
-│   │   │   │       │   ├── ir/
-│   │   │   │       │   └── codegen/
-│   │   │   │       └── grammar/
-│   │   │   │           └── GeminiC.g4
-│   │   │   └── resources/
-│   │   └── test/
-│   │       └── java/
-│   ├── test/
-│   │   └── examples/
-│   ├── build/
-│   ├── target/
-│   ├── pom.xml
-│   └── README.md
+源代码(.gc)
+    ↓
+[阶段1] 词法/语法分析 → AST（65个节点）
+    ↓
+[阶段2] 语义分析 → 符号表 + 38种错误检查
+    ↓
+[阶段3] 中间代码生成 → TAC（三地址代码）
+    ↓
+[阶段4] 代码生成 → LLVM IR(.ll文件)
 ```
 
-## 编译流程
+### 2. 语义检查和分析
 
-1. **词法分析**: 使用 ANTLR 4 生成词法分析器
-2. **语法分析**: 构建抽象语法树 (AST)
-3. **语义分析**: 符号表管理和类型检查
-4. **中间代码生成**: 生成三地址代码 (TAC)
-5. **目标代码生成**: 生成 LLVM IR 代码
+编译器支持**38种语义错误检查**，包括：
+- ✅ **类型检查**：类型兼容性、隐式转换验证
+- ✅ **符号表管理**：变量重复声明、未定义使用、作用域管理
+- ✅ **数组和指针**：维度检查、指针运算验证
+- ✅ **结构体**：成员访问检查、初始化验证
+- ✅ **函数**：参数类型检查、返回值验证、递归调用支持
+- ✅ **控制流**：break/continue有效性检查、switch完整性
 
-## 使用方法
+### 3. 中间代码优化（TAC级别）
+
+编译器在生成 LLVM IR 前进行**TAC级别的优化**：
+- ✅ **常量传播**：识别和替换常量表达式
+- ✅ **死代码消除**：移除不可达代码和未使用变量
+- ✅ **循环优化**：循环不变式外提、内存到寄存器转换
+- ✅ **表达式优化**：公共子表达式消除
+
+### 4. 完整的类型系统
+
+支持 C 语言的复杂类型：
+- ✅ **基础类型**：`int`, `float`, `char`, `string`
+- ✅ **数组类型**：多维数组、函数参数数组
+- ✅ **结构体类型**：结构体定义、嵌套、成员访问
+- ✅ **指针类型**：指针声明、指针运算（ptr±int, ptr-ptr）
+- ✅ **类型转换**：隐式转换、显式强制转换
+
+### 5. 调试和可视化支持
+
+编译器提供**4种调试输出**，帮助理解编译过程：
+- `--debug-ast` : 输出抽象语法树
+- `--debug-symtable` : 输出符号表信息
+- `--debug-ir` : 输出 TAC 中间代码
+- `--debug-codegen` : 输出 LLVM IR 生成过程
+
+### 6. 支持的语言特性
+
+| 特性 | 支持情况 |
+|------|--------|
+| 变量声明和赋值 | ✅ 完全支持 |
+| 函数定义和调用 | ✅ 支持递归 |
+| 数组操作 | ✅ 多维数组，动态访问 |
+| 结构体 | ✅ 定义、初始化、成员访问 |
+| 控制流 | ✅ if/else, while, for, switch |
+| 运算符 | ✅ 算术、逻辑、比较、位运算 |
+| 指针运算 | ✅ 地址操作、指针算术、解引用 |
+
+---
+
+## 🚀 快速开始
 
 ### 环境要求
-- Java 11 或更高版本
-- Maven 3.6 或更高版本
-- ANTLR 4.9 或更高版本
+- Java 11+
+- Maven 3.6+
 
-### 编译和运行
+### 三步启动
+
 ```bash
-# 编译项目
+# 1. 编译项目
 mvn clean compile
 
-# 运行编译器
-mvn exec:java -Dexec.mainClass="com.gemini.compiler.GeminiCompiler" -Dexec.args="input.gc"
+# 2. 运行编译器
+mvn exec:java -Dexec.mainClass="com.wei.compiler.WeiCompiler" -Dexec.args="src/test/examples/example1.gc output.ll"
 
-# 运行测试
-mvn test
+# 3. 查看输出
+cat output/example1_output/example1_LLVM.ll  # Linux/Mac
+type output\example1_output\example1_LLVM.ll # Windows
 ```
 
-### 命令行选项
-```bash
-java GeminiCompiler <输入文件> [输出文件] [选项]
+---
 
-选项:
-  --debug-ast      显示抽象语法树
-  --debug-symtable 显示符号表
-  --debug-ir       显示中间代码
-  --debug-codegen  显示目标代码生成过程
-  --optimize       启用优化
-```
+## 📚 语言语法
 
-## 示例程序
-
-### 基本语法示例
+### 数据类型
 ```c
-/* Gemini-C 示例程序 1: 基本语法测试 */
+int a = 10;           // 整数
+float b = 3.14;       // 浮点数
+char c = 'A';         // 字符
+string s = "Hello";   // 字符串
+```
+
+### 数组
+```c
+int arr[10];          // 一维数组
+int matrix[3][3];     // 二维数组
+arr[0] = 5;           // 数组访问
+matrix[1][2] = 10;    // 多维数组访问
+```
+
+### 结构体
+```c
 struct Point {
     int x;
     int y;
 };
 
-int main() {
-    int count = 10;
-    float sum = 0.0;
-    int matrix[3][3];
-    
-    struct Point p1;
-    string message = "Hello, Gemini!";
-    
-    p1.x = 1;
-    p1.y = 2;
-    
-    // for循环测试
-    for (int i = 0; i < count; i++) {
-        matrix[i][i] = i * i;
-        sum += (float)i;
-    }
-    
-    // switch语句测试
-    switch (count) {
-        case 10:
-            count++;
-            break;
-        default:
-            count *= 2;
-    }
-    
-    // while语句和break/continue测试
-    while (count > 0) {
-        if (count % 2 == 0) {
-            count--;
-            continue;
-        }
-        if (count == 5) {
-            break;
-        }
-        count -= 1;
-    }
-    
-    return 0;
-}
+struct Point p;
+p.x = 1;
+p.y = 2;
 ```
 
-### 函数和数组示例
+### 函数
 ```c
-/* Gemini-C 示例程序 2: 函数和数组测试 */
 int add(int a, int b) {
     return a + b;
 }
 
-int multiply(int a, int b) {
-    return a * b;
-}
-
-int factorial(int n) {
-    if (n <= 1) {
-        return 1;
-    } else {
-        return n * factorial(n - 1);
-    }
-}
-
 int main() {
-    int numbers[10];
-    int result;
-    
-    // 初始化数组
-    for (int i = 0; i < 10; i++) {
-        numbers[i] = i + 1;
-    }
-    
-    // 测试函数调用
-    result = add(5, 3);
-    result = multiply(result, 2);
-    
-    // 测试递归函数
-    result = factorial(5);
-    
-    // 测试数组操作
-    int sum = 0;
-    for (int i = 0; i < 10; i++) {
-        sum += numbers[i];
-    }
-    
-    return sum;
+    int result = add(5, 3);
+    return result;
 }
 ```
 
-## 语义错误检查
-
-编译器支持 20+ 种语义错误检查：
-
-### 类型检查错误
-1. 操作数类型不匹配
-2. 赋值语句左右类型不兼容
-3. 函数调用参数类型或数量不匹配
-4. 控制表达式类型错误
-5. 返回类型不匹配
-
-### 声明与作用域错误
-6. 未定义的标识符
-7. 标识符重定义
-8. break或continue语句不在循环体内
-
-### 数组与结构体错误
-9. 数组下标不是整数类型
-10. 数组访问时维数错误
-11. 对非结构体变量使用成员访问运算符
-12. 结构体成员不存在
-13. 结构体定义中存在循环依赖
-
-### 其他错误
-14. 变量重复初始化
-15. 函数调用时使用了不可调用的标识符
-16. 除数为零
-17. 无效的左值
-18. main函数缺少或签名错误
-19. switch表达式类型与case常量类型不匹配
-20. 结构体类型未定义
-
-## 中间代码格式
-
-编译器生成三地址代码 (TAC)，使用四元式表示：
-```
-(操作码, 操作数1, 操作数2, 结果)
+### 控制语句
+```c
+if (condition) { } else { }
+while (condition) { }
+for (int i = 0; i < 10; i++) { }
+switch (value) { case 1: ... break; }
 ```
 
-### 支持的指令类型
-- **算术运算**: ADD, SUB, MUL, DIV, MOD
-- **比较运算**: EQ, NE, LT, GT, LE, GE
-- **逻辑运算**: AND, OR, NOT
-- **赋值**: ASSIGN, PLUS_ASSIGN, MINUS_ASSIGN, MUL_ASSIGN, DIV_ASSIGN, MOD_ASSIGN
-- **自增自减**: INCREMENT, DECREMENT
-- **跳转**: GOTO, IF_TRUE, IF_FALSE, IF_ZERO, IF_NONZERO
-- **标签**: LABEL
-- **函数调用**: CALL, RETURN
-- **数组操作**: ARRAY_ACCESS, ARRAY_ASSIGN
-- **结构体操作**: MEMBER_ACCESS, MEMBER_ASSIGN
+### 运算符
+```c
+// 算术：a + b, a - b, a * b, a / b, a % b
+// 比较：a == b, a != b, a < b, a > b, a <= b, a >= b
+// 逻辑：a && b, a || b, !a
+// 赋值：a = b, a += b, a -= b, a *= b, a /= b, a %= b
+// 自增自减：a++, ++a, a--, --a
+```
 
-## LLVM IR 目标代码
+---
 
-编译器生成 LLVM IR 代码，支持：
-- 基本数据类型映射 (int → i32, float → float, char → i8)
-- 函数定义和调用
-- 变量分配和访问
-- 控制流语句
-- 数组和结构体操作
+## 🔧 编译选项
 
-### 目标代码限制
-- 主要支持整型 (`int`) 的目标代码生成
-- 结构体和数组支持有限
-- 优化级别为 -O2
+### 调试标志
+添加以下标志查看编译各阶段的产物：
 
-## 测试
-
-项目包含完整的测试套件：
-- 单元测试 (JUnit 5)
-- 集成测试
-- 错误处理测试
-- 性能测试
-
-运行测试：
 ```bash
-mvn test
+# 显示所有调试信息
+mvn exec:java -Dexec.mainClass="com.wei.compiler.WeiCompiler" -Dexec.args="input.gc output.ll --debug-all"
+
+# 显示特定信息
+mvn exec:java -Dexec.mainClass="com.wei.compiler.WeiCompiler" -Dexec.args="input.gc output.ll --debug-ast"        # AST
+mvn exec:java -Dexec.mainClass="com.wei.compiler.WeiCompiler" -Dexec.args="input.gc output.ll --debug-symtable"  # 符号表
+mvn exec:java -Dexec.mainClass="com.wei.compiler.WeiCompiler" -Dexec.args="input.gc output.ll --debug-ir"        # TAC
 ```
 
-## 开发计划
+### 编译选项表
 
-- [x] 项目结构初始化
-- [x] ANTLR 语法文件定义
-- [x] 词法分析器实现
-- [x] 语法分析器和 AST 构建
-- [x] 符号表管理和语义分析
-- [x] 中间代码生成
-- [x] LLVM IR 目标代码生成
-- [x] 测试用例和文档
+| 选项 | 说明 | 输出文件 |
+|------|------|--------|
+| `--debug-ast` | 显示抽象语法树 | `*_AST.txt` |
+| `--debug-symtable` | 显示符号表 | `*_SymbolTable.txt` |
+| `--debug-ir` | 显示中间代码（TAC） | `*_IR_TAC.tac` |
+| `--debug-all` | 显示所有调试信息 | 上述所有文件 |
+| `--optimize` | 启用代码优化 | - |
 
-## 贡献指南
+---
 
-1. Fork 项目
-2. 创建特性分支
-3. 提交更改
-4. 推送到分支
-5. 创建 Pull Request
+## 📁 输出文件结构
 
-## 许可证
+所有输出文件位于 `output/<源文件名>_output/` 目录下：
 
-本项目采用 MIT 许可证。
+```
+output/
+└── example1_output/
+    ├── example1_LLVM.ll         ← LLVM IR代码（主输出）
+    ├── example1_AST.txt         ← 抽象语法树（--debug-ast）
+    ├── example1_SymbolTable.txt ← 符号表（--debug-symtable）
+    └── example1_IR_TAC.tac      ← 三地址码（--debug-ir）
+```
 
-## 作者
+---
 
-编译器设计与实现课程项目
+## ❌ 错误处理
 
-## 联系方式
+### 语法错误
+编译器会报告语法错误，包括缺少分号、括号不匹配、关键字拼写错误。
 
-如有问题或建议，请通过以下方式联系：
-- 邮箱: [your-email@example.com]
-- 项目地址: [GitHub Repository URL]
+### 语义错误 - 38种检查
+
+| 类别 | 错误示例 |
+|------|--------|
+| **类型检查** | 操作数类型不匹配、赋值左右类型不兼容、参数类型不匹配 |
+| **符号表** | 未定义的标识符、标识符重定义、作用域错误 |
+| **数组/结构体** | 下标不是整数、维数错误、成员不存在 |
+| **函数** | 参数数量不匹配、返回值不匹配 |
+| **控制流** | break/continue不在循环中 |
+| **其他** | main函数错误、switch类型不匹配 |
+
+### 错误示例
+```c
+int main() {
+    int result = undefined_var;  // 错误：未定义的变量
+    float f = "hello";           // 错误：类型不匹配
+    int a = 20;                  // 错误：a已定义
+    break;                        // 错误：break不在循环中
+    return 0;
+}
+```
+
+---
+
+## 📝 测试示例
+
+项目包含4个完整的测试示例（位于 `src/test/examples/`）：
+
+| 文件 | 演示内容 |
+|------|--------|
+| `example1.gc` | 基础运算、控制流、数组 |
+| `example2.gc` | 函数、递归、数组访问 |
+| `example3.gc` | 结构体、成员访问 |
+| `example4.gc` | 复杂程序（数组参数、结构体嵌套） |
+
+**所有示例都已 100% 通过编译！** ✅
+
+编译任意示例：
+```bash
+mvn exec:java -Dexec.mainClass="com.wei.compiler.WeiCompiler" -Dexec.args="src/test/examples/exampleN.gc output.ll --debug-all"
+```
+
+---
+
+## 🔍 故障排查
+
+### 常见问题
+
+| 问题 | 解决方案 |
+|------|--------|
+| 编译失败 | 检查 Java 版本 (`java -version`)、清理缓存 (`mvn clean`) |
+| 运行时错误 | 检查输入文件存在性、使用 `--debug-all` 查看详细信息 |
+| 内存不足 | 增加 JVM 堆内存：`mvn exec:java -Dexec.mainClass="..." -Xmx2g` |
+| 语法错误 | 检查语法正确性、参考语言语法部分 |
+| 语义错误 | 检查变量声明、类型匹配、作用域 |
+
+### 调试技巧
+
+```bash
+# 查看 AST
+java WeiCompiler input.gc output.ll --debug-ast
+
+# 查看符号表
+java WeiCompiler input.gc output.ll --debug-symtable
+
+# 查看中间代码
+java WeiCompiler input.gc output.ll --debug-ir
+
+# 启用代码优化
+java WeiCompiler input.gc output.ll --optimize
+```
+
+---
+
+## 📋 项目统计
+
+- **代码规模**: ~15,000+ 行编译器源码
+- **语法定义**: 274 行 ANTLR 语法规则
+- **编译阶段**: 4 个（词法→语法→语义→代码生成）
+- **核心模块**: 6 个（AST、语义分析、类型系统、中间代码、优化、代码生成）
+- **测试覆盖**: 4 个功能完整的示例程序
+- **完成度**: ✅ 核心功能 100% 完成
+
+---
+
+## 📁 项目结构
+
+```
+exp-design/
+├── src/main/java/          # 源代码
+│   └── com/wei/compiler/
+│       ├── ast/            # AST节点定义（65个）
+│       ├── semantic/       # 语义分析（符号表、类型检查）
+│       ├── ir/             # 中间代码生成（TAC）
+│       ├── optimizer/      # 代码优化（常量传播、死代码消除等）
+│       ├── codegen/        # 目标代码生成（LLVM IR）
+│       └── WeiCompiler.java # 主入口
+├── src/test/examples/      # 测试示例（example1-4，全部通过✅）
+├── docs/                   # 技术文档（7个深度文档）
+├── output/                 # 编译输出文件夹
+├── pom.xml                 # Maven配置
+└── README.md               # 本文件
+```
+
+---
+
+## 📚 技术栈
+
+| 组件 | 版本 |
+|------|------|
+| Java | 11+ |
+| ANTLR | 4.9.3 |
+| Maven | 3.6+ |
+| LLVM | IR标准 |
+
+---
+
+## 📖 更多资源
+
+深度学习请查看技术文档：
+
+| 文档 | 说明 |
+|------|------|
+| **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** | 编译器架构与实现 |
+| [AST_MODULE.md](docs/AST_MODULE.md) | AST模块详解（65个节点） |
+| [SEMANTIC_ANALYSIS.md](docs/SEMANTIC_ANALYSIS.md) | 语义分析与错误检查（38种） |
+| [CODE_GENERATION.md](docs/CODE_GENERATION.md) | 代码生成流程 |
+| [POINTER_ARITHMETIC.md](docs/POINTER_ARITHMETIC.md) | 指针运算支持 |
+| [OPTIMIZER.md](docs/OPTIMIZER.md) | 代码优化 |
+| [TEST_SUMMARY.md](docs/TEST_SUMMARY.md) | 测试用例 |
+
+---
+
+## 📌 版本信息
+
+- **版本**: 1.0.0
+- **状态**: ✅ 核心编译功能完成
+- **最后更新**: 2025年12月14日

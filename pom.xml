@@ -5,12 +5,12 @@
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.gemini</groupId>
-    <artifactId>gemini-c-compiler</artifactId>
+    <groupId>com.wei</groupId>
+    <artifactId>wei-c-compiler</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>Gemini-C Compiler</name>
+    <name>Wei-C Compiler</name>
     <description>完整的类C语言编译器实现</description>
 
     <properties>
@@ -79,7 +79,7 @@
                 <version>${antlr.version}</version>
                 <configuration>
                     <grammars>
-                        <grammar>src/main/java/com/gemini/grammar/GeminiC.g4</grammar>
+                        <grammar>src/main/antlr4/com/wei/WeiC.g4</grammar>
                     </grammars>
                     <visitor>true</visitor>
                     <listener>true</listener>
@@ -99,7 +99,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <mainClass>com.gemini.compiler.GeminiCompiler</mainClass>
+                    <mainClass>com.wei.compiler.WeiCompiler</mainClass>
                 </configuration>
             </plugin>
 
@@ -124,7 +124,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.gemini.compiler.GeminiCompiler</mainClass>
+                                    <mainClass>com.wei.compiler.WeiCompiler</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

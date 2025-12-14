@@ -4,7 +4,7 @@
 
 优化器模块对中间代码进行优化，提高生成代码的效率。
 
-**目录位置**: `src/main/java/com/gemini/compiler/optimizer/`
+**目录位置**: `src/main/java/com/wei/compiler/optimizer/`
 
 **文件数量**: 9 个 Java 文件
 
@@ -217,7 +217,7 @@ store i32 5, i32* %2
 
 **⚡ 优化器模块详解**
 
-Made with ❤️ by Gemini-C Compiler Team
+Made with ❤️ by wei-C Compiler Team
 
 </div>
 

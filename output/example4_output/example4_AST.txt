@@ -1,0 +1,183 @@
+Program
+  StructDeclaration: Student
+    FieldDeclaration: id
+      Type: int
+    FieldDeclaration: age
+      Type: int
+    FieldDeclaration: grade
+      Type: float
+  FunctionDeclaration: findMax
+    Type: int
+    Parameter: arr
+      Type: int
+    Parameter: size
+      Type: int
+    Block
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: max
+          ArrayAccess
+            Identifier: arr
+            IntLiteral: 0
+      ForStatement
+        VariableDeclaration
+          Type: int
+          VariableDeclarator: i
+            IntLiteral: 1
+        Identifier: size
+        PostfixExpression: ++
+          Identifier: i
+        Block
+          IfStatement
+            Identifier: max
+            Block
+              ExpressionStatement
+                AssignmentExpression: =
+                  Identifier: max
+                  ArrayAccess
+                    Identifier: arr
+                    Identifier: i
+      ReturnStatement
+        Identifier: max
+  FunctionDeclaration: main
+    Type: int
+    Block
+      VariableDeclaration
+        Type: Student
+        VariableDeclarator: students
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: scores
+      ExpressionStatement
+        AssignmentExpression: =
+          ArrayAccess
+            Identifier: scores
+            IntLiteral: 0
+          IntLiteral: 85
+      ExpressionStatement
+        AssignmentExpression: =
+          ArrayAccess
+            Identifier: scores
+            IntLiteral: 1
+          IntLiteral: 92
+      ExpressionStatement
+        AssignmentExpression: =
+          ArrayAccess
+            Identifier: scores
+            IntLiteral: 2
+          IntLiteral: 78
+      ExpressionStatement
+        AssignmentExpression: =
+          ArrayAccess
+            Identifier: scores
+            IntLiteral: 3
+          IntLiteral: 96
+      ExpressionStatement
+        AssignmentExpression: =
+          ArrayAccess
+            Identifier: scores
+            IntLiteral: 4
+          IntLiteral: 88
+      ForStatement
+        VariableDeclaration
+          Type: int
+          VariableDeclarator: i
+            IntLiteral: 0
+        IntLiteral: 5
+        PostfixExpression: ++
+          Identifier: i
+        Block
+          ExpressionStatement
+            AssignmentExpression: =
+              MemberAccess: id
+                ArrayAccess
+                  Identifier: students
+                  Identifier: i
+              IntLiteral: 1
+          ExpressionStatement
+            AssignmentExpression: =
+              MemberAccess: age
+                ArrayAccess
+                  Identifier: students
+                  Identifier: i
+              Identifier: i
+          ExpressionStatement
+            AssignmentExpression: =
+              MemberAccess: grade
+                ArrayAccess
+                  Identifier: students
+                  Identifier: i
+              ArrayAccess
+                Identifier: scores
+                Identifier: i
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: maxScore
+          FunctionCall: findMax
+            Identifier: scores
+            IntLiteral: 5
+      ForStatement
+        VariableDeclaration
+          Type: int
+          VariableDeclarator: i
+            IntLiteral: 0
+        IntLiteral: 5
+        PostfixExpression: ++
+          Identifier: i
+        Block
+          ForStatement
+            VariableDeclaration
+              Type: int
+              VariableDeclarator: j
+                IntLiteral: 1
+            IntLiteral: 5
+            PostfixExpression: ++
+              Identifier: j
+            Block
+              IfStatement
+                MemberAccess: grade
+                  ArrayAccess
+                    Identifier: students
+                    Identifier: j
+                Block
+                  VariableDeclaration
+                    Type: Student
+                    VariableDeclarator: temp
+                      ArrayAccess
+                        Identifier: students
+                        Identifier: i
+                  ExpressionStatement
+                    AssignmentExpression: =
+                      ArrayAccess
+                        Identifier: students
+                        Identifier: i
+                      ArrayAccess
+                        Identifier: students
+                        Identifier: j
+                  ExpressionStatement
+                    AssignmentExpression: =
+                      ArrayAccess
+                        Identifier: students
+                        Identifier: j
+                      Identifier: temp
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: choice
+          IntLiteral: 3
+      SwitchStatement
+        Identifier: choice
+        CaseStatement
+          IntLiteral: 1
+          ReturnStatement
+            IntLiteral: 1
+        CaseStatement
+          IntLiteral: 2
+          ReturnStatement
+            IntLiteral: 2
+        CaseStatement
+          IntLiteral: 3
+          ReturnStatement
+            IntLiteral: 3
+        DefaultStatement
+          ReturnStatement
+            IntLiteral: 0

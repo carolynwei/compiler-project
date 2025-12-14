@@ -1,0 +1,6 @@
+=== 完整符号表 ===
+作用域 1:
+  SymbolEntry[name='main', type=FUNCTION, dataType=int, kind=GLOBAL, scope=0, funcInfo=[defined:true]]
+  SymbolEntry[name='Student', type=STRUCT_DEFINITION, dataType=Student, kind=GLOBAL, scope=0, struct=Student]
+  SymbolEntry[name='findMax', type=FUNCTION, dataType=int, kind=GLOBAL, scope=0, funcInfo=[defined:true]]
+

@@ -1,0 +1,4 @@
+=== 完整符号表 ===
+作用域 1:
+  SymbolEntry[name='main', type=FUNCTION, dataType=int, kind=GLOBAL, scope=0, funcInfo=[defined:true]]
+

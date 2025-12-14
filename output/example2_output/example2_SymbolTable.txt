@@ -1,0 +1,7 @@
+=== 完整符号表 ===
+作用域 1:
+  SymbolEntry[name='add', type=FUNCTION, dataType=int, kind=GLOBAL, scope=0, funcInfo=[defined:true]]
+  SymbolEntry[name='factorial', type=FUNCTION, dataType=int, kind=GLOBAL, scope=0, funcInfo=[defined:true]]
+  SymbolEntry[name='main', type=FUNCTION, dataType=int, kind=GLOBAL, scope=0, funcInfo=[defined:true]]
+  SymbolEntry[name='multiply', type=FUNCTION, dataType=int, kind=GLOBAL, scope=0, funcInfo=[defined:true]]
+

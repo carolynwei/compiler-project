@@ -4,9 +4,9 @@
 
 中间代码生成模块将 AST 转换为三地址代码 (TAC)，为代码优化和目标代码生成提供中间表示。
 
-**目录位置**: `src/main/java/com/gemini/compiler/ir/`
+**目录位置**: `src/main/java/com/wei/compiler/ir/`
 
-**文件数量**: 5 个 Java 文件
+**文件数量**: 7 个 Java 文件
 
 ---
 
@@ -354,7 +354,7 @@ L2:
 
 **🔄 中间代码生成模块详解**
 
-Made with ❤️ by Gemini-C Compiler Team
+Made with ❤️ by wei-C Compiler Team
 
 </div>
 

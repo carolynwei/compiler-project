@@ -1,4 +1,4 @@
-/* Gemini-C 示例程序 2: 函数和数组测试 */
+/* wei-C 示例程序 2: 函数和数组测试 */
 int add(int a, int b) {
     return a + b;
 }

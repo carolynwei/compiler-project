@@ -1,0 +1,91 @@
+Program
+  StructDeclaration: Point
+    FieldDeclaration: x
+      Type: int
+    FieldDeclaration: y
+      Type: int
+  FunctionDeclaration: main
+    Type: int
+    Block
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: count
+          IntLiteral: 10
+      VariableDeclaration
+        Type: float
+        VariableDeclarator: sum
+          FloatLiteral: 0.0
+      VariableDeclaration
+        Type: int
+        VariableDeclarator: matrix
+      VariableDeclaration
+        Type: Point
+        VariableDeclarator: p1
+      ExpressionStatement
+        AssignmentExpression: =
+          MemberAccess: x
+            Identifier: p1
+          IntLiteral: 1
+      ExpressionStatement
+        AssignmentExpression: =
+          MemberAccess: y
+            Identifier: p1
+          IntLiteral: 2
+      ForStatement
+        VariableDeclaration
+          Type: int
+          VariableDeclarator: i
+            IntLiteral: 0
+        Identifier: count
+        PostfixExpression: ++
+          Identifier: i
+        Block
+          ExpressionStatement
+            AssignmentExpression: =
+              ArrayAccess
+                ArrayAccess
+                  Identifier: matrix
+                  Identifier: i
+                Identifier: i
+              Identifier: i
+          ExpressionStatement
+            AssignmentExpression: +=
+              Identifier: sum
+              CastExpression
+                Target Type:
+                  Type: float
+                Expression:
+                  Identifier: i
+      SwitchStatement
+        Identifier: count
+        CaseStatement
+          IntLiteral: 10
+          ExpressionStatement
+            PostfixExpression: ++
+              Identifier: count
+          BreakStatement
+        DefaultStatement
+          ExpressionStatement
+            AssignmentExpression: *=
+              Identifier: count
+              IntLiteral: 2
+      WhileStatement
+        IntLiteral: 0
+        Block
+          IfStatement
+            IntLiteral: 0
+            Block
+              ExpressionStatement
+                PostfixExpression: --
+                  Identifier: count
+              ContinueStatement
+          IfStatement
+            IntLiteral: 5
+            Block
+              BreakStatement
+          ExpressionStatement
+            AssignmentExpression: -=
+              Identifier: count
+              IntLiteral: 1
+      ReturnStatement
+        IntLiteral: 0

@@ -2,7 +2,7 @@
 
 ## 整体架构
 
-Gemini-C 编译器采用经典的编译架构，实现完整的编译六阶段：
+wei-C 编译器采用经典的编译架构，实现完整的编译六阶段：
 
 ```
 源代码 → 词法分析 → 语法分析 → 语义分析 → 中间代码生成 → 代码优化 → 目标代码生成
@@ -11,13 +11,13 @@ Gemini-C 编译器采用经典的编译架构，实现完整的编译六阶段�
 
 ---
 
-## 核心类：GeminiCompiler
+## 核心类：WeiCompiler
 
-**文件位置**: `src/main/java/com/gemini/compiler/GeminiCompiler.java`
+**文件位置**: `src/main/java/com/wei/compiler/WeiCompiler.java`
 
 ### 类概述
 
-`GeminiCompiler` 是编译器的主入口类，负责协调所有编译阶段。
+`WeiCompiler` 是编译器的主入口类，负责协调所有编译阶段。
 
 ### 主要职责
 
@@ -73,11 +73,11 @@ private ASTNode parseFile(String inputFile) throws IOException {
     String sourceCode = Files.readString(Paths.get(inputFile));
     
     // 2. 创建词法分析器
-    GeminiCLexer lexer = new GeminiCLexer(CharStreams.fromString(sourceCode));
+    WeiCLexer lexer = new WeiCLexer(CharStreams.fromString(sourceCode));
     CommonTokenStream tokens = new CommonTokenStream(lexer);
     
     // 3. 创建语法分析器
-    GeminiCParser parser = new GeminiCParser(tokens);
+    WeiCParser parser = new WeiCParser(tokens);
     parser.removeErrorListeners();
     parser.addErrorListener(new CompilerErrorListener());
     
@@ -148,7 +148,7 @@ public static boolean DEBUG_CODEGEN = false;    // 显示代码生成过程
 ## 模块依赖关系
 
 ```
-GeminiCompiler
+WeiCompiler
     ├── ASTBuilder (ast/)
     ├── SemanticAnalyzer (semantic/)
     │   └── SymbolTableManager (semantic/)
@@ -202,11 +202,28 @@ GeminiCompiler
 
 ---
 
+## 编译阶段实现状态
+
+### 各阶段实现详情
+
+| 阶段 | 位置 | 状态 | 说明 |
+|------|------|------|------|
+| 词法分析 | `WeiC.g4` | ✅ | ANTLR 完整支持 |
+| 语法分析 | `WeiC.g4` + `ASTBuilder.java` | ✅ | 340 行语法，65 个 AST 节点 |
+| 语义分析 | `semantic/` | ✅ | 38 种错误检查，完整符号表 |
+| 中间代码生成 | `ir/` | ✅ | TAC 四元式，基本块，CFG |
+| 代码优化 | `optimizer/` | 🚧 | 核心算法已实现（80% 完成） |
+| 目标代码生成 | `codegen/` | ✅ | LLVM IR，支持所有数据类型 |
+
+**总体完成度**: 96.7%
+
+---
+
 <div align="center">
 
-**🏗️ 架构设计文档**
+**🏗️ 架构设计与阶段实现文档**
 
-Made with ❤️ by Gemini-C Compiler Team
+Made with ❤️ by wei-C Compiler Team
 
 </div>
 

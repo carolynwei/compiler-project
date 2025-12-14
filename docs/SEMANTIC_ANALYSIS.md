@@ -2,11 +2,11 @@
 
 ## 模块概述
 
-语义分析模块负责类型检查、作用域管理和语义错误检测。它遍历 AST，构建符号表，并进行 20+ 种语义错误检查。
+语义分析模块调责类型检查、作用域管理和语义错误检测。它遍历 AST，构建符号表，并进行 38 种语义错误检查。
 
-**目录位置**: `src/main/java/com/gemini/compiler/semantic/`
+**目录位置**: `src/main/java/com/wei/compiler/semantic/`
 
-**文件数量**: 11 个 Java 文件
+**文件数量**: 14 个 Java 文件
 
 ---
 
@@ -228,6 +228,20 @@ public DataType analyzeType(ExpressionNode expr) {
 - 比较运算：`int == int → int` (布尔值用整数表示)
 - 逻辑运算：`int && int → int`
 
+**指针运算规则** (新增):
+- 指针加整数：`ptr + int → ptr`, `int + ptr → ptr`（指向偏移后的内存地址）
+- 指针减整数：`ptr - int → ptr`（指向向后偏移的地址）
+- 指针差值：`ptr - ptr → int`（两指针间的字节距离）
+- 示例：
+  ```java
+  int arr[5];
+  int* p1 = arr;        // p1 指向 arr[0]
+  int* p2 = p1 + 1;     // p2 指向 arr[1]，地址偏移 sizeof(int) 字节
+  int* p3 = p1 + 2;     // p3 指向 arr[2]，地址偏移 2*sizeof(int) 字节
+  int diff = p3 - p1;   // diff = 2（元素个数）
+  int* p4 = p3 - 1;     // p4 指向 arr[1]
+  ```
+
 ---
 
 ### 5. ArrayInfo
@@ -309,18 +323,44 @@ private int scopeLevel;               // 作用域级别
 
 **作用**: 语义错误类型枚举。
 
-**错误类型**:
-- `UNDEFINED_IDENTIFIER`: 未定义的标识符
-- `REDEFINITION`: 重定义
+**38 种错误类型**:
+
+**类型检查错误 (5种)**:
 - `TYPE_MISMATCH`: 类型不匹配
-- `INVALID_ASSIGNMENT`: 无效赋值
-- `FUNCTION_PARAMETER_MISMATCH`: 函数参数不匹配
-- `INVALID_RETURN_TYPE`: 返回类型错误
-- `ARRAY_INDEX_NOT_INTEGER`: 数组下标非整数
-- `INVALID_MEMBER_ACCESS`: 无效成员访问
-- `BREAK_OUTSIDE_LOOP`: break 不在循环内
-- `CONTINUE_OUTSIDE_LOOP`: continue 不在循环内
-- 更多...
+- `INCOMPATIBLE_ASSIGNMENT`: 赋值类型不兼容
+- `FUNCTION_PARAMETER_MISMATCH`: 函数参数类型或数量不匹配
+- `CONTROL_EXPRESSION_TYPE_ERROR`: 控制表达式类型错误
+- `RETURN_TYPE_MISMATCH`: 返回类型不匹配
+
+**声明与作用域错误 (3种)**:
+- `UNDEFINED_IDENTIFIER`: 未定义的标识符
+- `REDEFINITION`: 重定义错误
+- `BREAK_CONTINUE_OUTSIDE_LOOP`: break或continue语句不在循环体内
+
+**数组与结构体错误 (5种)**:
+- `ARRAY_INDEX_TYPE_ERROR`: 数组下标不是整数类型
+- `ARRAY_DIMENSION_ERROR`: 数组访问时维数错误
+- `NON_STRUCT_MEMBER_ACCESS`: 对非结构体变量使用成员访问运算符
+- `STRUCT_MEMBER_NOT_FOUND`: 结构体成员不存在
+- `STRUCT_CIRCULAR_DEPENDENCY`: 结构体定义中存在循环依赖
+
+**其他错误 (14种)**:
+- `DUPLICATE_INITIALIZATION`: 变量重复初始化
+- `NON_CALLABLE_IDENTIFIER`: 函数调用时使用了不可调用的标识符
+- `DIVISION_BY_ZERO`: 除数为零
+- `INVALID_LVALUE`: 无效的左值
+- `MAIN_FUNCTION_MISSING`: main函数缺少或签名错误
+- `SWITCH_CASE_TYPE_MISMATCH`: switch表达式类型与case常量类型不匹配
+- `STRUCT_TYPE_UNDEFINED`: 结构体类型未定义
+- `ARRAY_SIZE_NEGATIVE`: 数组大小为负数
+- `FUNCTION_RECURSION_DEPTH`: 函数递归深度过大
+- `VARIABLE_NOT_INITIALIZED`: 变量未初始化
+- `CONSTANT_MODIFICATION`: 修改常量
+- `INVALID_OPERATOR_USAGE`: 运算符使用错误
+- `EXPECTED_CONSTANT_EXPRESSION`: 期望常量表达式
+- `REPEATED_CASE_LABEL`: 重复的case标签
+- `REPEATED_DEFAULT_LABEL`: 重复的default标签
+- `INVALID_ARRAY_DIMENSION`: 无效的数组维度
 
 ---
 
@@ -352,38 +392,13 @@ private int scopeLevel;               // 作用域级别
 - `FUNCTION`: 函数
 - `STRUCT`: 结构体
 
+
+
 ---
 
 ## 语义检查流程
 
-### 1. 符号表构建阶段
-
-遍历 AST，构建符号表：
-1. 遇到声明 → 插入符号表
-2. 遇到作用域开始 → 进入新作用域
-3. 遇到作用域结束 → 退出作用域
-
-### 2. 类型检查阶段
-
-检查类型兼容性：
-1. 表达式类型推断
-2. 赋值类型检查
-3. 函数调用参数类型检查
-4. 返回类型检查
-
-### 3. 作用域检查阶段
-
-检查作用域规则：
-1. 标识符是否定义
-2. 标识符是否重定义
-3. break/continue 是否在循环内
-
-### 4. 其他检查
-
-- 数组下标检查
-- 结构体成员访问检查
-- 函数调用检查
-- main 函数检查
+详见 [编译阶段文档](COMPILATION_STAGES.md)中的「阶段三」节点。
 
 ---
 
@@ -398,13 +413,7 @@ private int scopeLevel;               // 作用域级别
 
 ## 设计模式
 
-### Visitor 模式
-- `SemanticAnalyzer` 实现 `ASTVisitor<Void>`
-- 分离 AST 遍历和语义分析逻辑
-
-### 栈式作用域管理
-- 使用栈实现嵌套作用域
-- 支持作用域的进入和退出
+详见 [架构设计](ARCHITECTURE.md)。
 
 ---
 
@@ -412,7 +421,7 @@ private int scopeLevel;               // 作用域级别
 
 **🔍 语义分析模块详解**
 
-Made with ❤️ by Gemini-C Compiler Team
+Made with ❤️ by wei-C Compiler Team
 
 </div>
 

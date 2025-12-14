@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.wei.compiler.test.OptimizerTest" time="0.411" tests="4" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="awt.toolkit" value="sun.awt.X11.XToolkit"/>
+    <property name="java.specification.version" value="11"/>
+    <property name="sun.cpu.isalist" value=""/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/mnt/e/ThirdYear/compiler/exp-design/target/test-classes:/mnt/e/ThirdYear/compiler/exp-design/target/classes:/home/carolyn/.m2/repository/org/antlr/antlr4-runtime/4.9.3/antlr4-runtime-4.9.3.jar:/home/carolyn/.m2/repository/org/antlr/antlr4-maven-plugin/4.9.3/antlr4-maven-plugin-4.9.3.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-plugin-api/3.0.5/maven-plugin-api-3.0.5.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-model/3.0.5/maven-model-3.0.5.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-artifact/3.0.5/maven-artifact-3.0.5.jar:/home/carolyn/.m2/repository/org/sonatype/sisu/sisu-inject-plexus/2.3.0/sisu-inject-plexus-2.3.0.jar:/home/carolyn/.m2/repository/org/codehaus/plexus/plexus-component-annotations/1.5.5/plexus-component-annotations-1.5.5.jar:/home/carolyn/.m2/repository/org/codehaus/plexus/plexus-classworlds/2.4/plexus-classworlds-2.4.jar:/home/carolyn/.m2/repository/org/sonatype/sisu/sisu-inject-bean/2.3.0/sisu-inject-bean-2.3.0.jar:/home/carolyn/.m2/repository/org/sonatype/sisu/sisu-guice/3.1.0/sisu-guice-3.1.0-no_aop.jar:/home/carolyn/.m2/repository/org/sonatype/sisu/sisu-guava/0.9.9/sisu-guava-0.9.9.jar:/home/carolyn/.m2/repository/org/codehaus/plexus/plexus-compiler-api/2.2/plexus-compiler-api-2.2.jar:/home/carolyn/.m2/repository/org/codehaus/plexus/plexus-utils/3.0.8/plexus-utils-3.0.8.jar:/home/carolyn/.m2/repository/org/sonatype/plexus/plexus-build-api/0.0.7/plexus-build-api-0.0.7.jar:/home/carolyn/.m2/repository/org/antlr/antlr4/4.9.3/antlr4-4.9.3.jar:/home/carolyn/.m2/repository/org/antlr/antlr-runtime/3.5.2/antlr-runtime-3.5.2.jar:/home/carolyn/.m2/repository/org/antlr/ST4/4.3.1/ST4-4.3.1.jar:/home/carolyn/.m2/repository/org/abego/treelayout/org.abego.treelayout.core/1.0.3/org.abego.treelayout.core-1.0.3.jar:/home/carolyn/.m2/repository/org/glassfish/javax.json/1.0.4/javax.json-1.0.4.jar:/home/carolyn/.m2/repository/com/ibm/icu/icu4j/69.1/icu4j-69.1.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-project/2.2.1/maven-project-2.2.1.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-settings/2.2.1/maven-settings-2.2.1.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-profile/2.2.1/maven-profile-2.2.1.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-artifact-manager/2.2.1/maven-artifact-manager-2.2.1.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-repository-metadata/2.2.1/maven-repository-metadata-2.2.1.jar:/home/carolyn/.m2/repository/org/apache/maven/wagon/wagon-provider-api/1.0-beta-6/wagon-provider-api-1.0-beta-6.jar:/home/carolyn/.m2/repository/backport-util-concurrent/backport-util-concurrent/3.1/backport-util-concurrent-3.1.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-plugin-registry/2.2.1/maven-plugin-registry-2.2.1.jar:/home/carolyn/.m2/repository/org/codehaus/plexus/plexus-interpolation/1.11/plexus-interpolation-1.11.jar:/home/carolyn/.m2/repository/org/codehaus/plexus/plexus-container-default/1.0-alpha-9-stable-1/plexus-container-default-1.0-alpha-9-stable-1.jar:/home/carolyn/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/home/carolyn/.m2/repository/classworlds/classworlds/1.1-alpha-2/classworlds-1.1-alpha-2.jar:/home/carolyn/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.8.2/junit-jupiter-engine-5.8.2.jar:/home/carolyn/.m2/repository/org/junit/platform/junit-platform-engine/1.8.2/junit-platform-engine-1.8.2.jar:/home/carolyn/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/home/carolyn/.m2/repository/org/junit/platform/junit-platform-commons/1.8.2/junit-platform-commons-1.8.2.jar:/home/carolyn/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.8.2/junit-jupiter-api-5.8.2.jar:/home/carolyn/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/carolyn/.m2/repository/commons-cli/commons-cli/1.5.0/commons-cli-1.5.0.jar:/home/carolyn/.m2/repository/org/slf4j/slf4j-simple/1.7.36/slf4j-simple-1.7.36.jar:/home/carolyn/.m2/repository/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar:"/>
+    <property name="java.vm.vendor" value="Ubuntu"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://ubuntu.com/"/>
+    <property name="user.timezone" value=""/>
+    <property name="java.vm.specification.version" value="11"/>
+    <property name="os.name" value="Linux"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-11-openjdk-amd64/lib"/>
+    <property name="sun.java.command" value="/mnt/e/ThirdYear/compiler/exp-design/target/surefire/surefirebooter-20251214122526124_3.jar /mnt/e/ThirdYear/compiler/exp-design/target/surefire 2025-12-14T12-25-25_756-jvmRun1 surefire-20251214122526124_1tmp surefire_0-20251214122526124_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/mnt/e/ThirdYear/compiler/exp-design/target/test-classes:/mnt/e/ThirdYear/compiler/exp-design/target/classes:/home/carolyn/.m2/repository/org/antlr/antlr4-runtime/4.9.3/antlr4-runtime-4.9.3.jar:/home/carolyn/.m2/repository/org/antlr/antlr4-maven-plugin/4.9.3/antlr4-maven-plugin-4.9.3.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-plugin-api/3.0.5/maven-plugin-api-3.0.5.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-model/3.0.5/maven-model-3.0.5.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-artifact/3.0.5/maven-artifact-3.0.5.jar:/home/carolyn/.m2/repository/org/sonatype/sisu/sisu-inject-plexus/2.3.0/sisu-inject-plexus-2.3.0.jar:/home/carolyn/.m2/repository/org/codehaus/plexus/plexus-component-annotations/1.5.5/plexus-component-annotations-1.5.5.jar:/home/carolyn/.m2/repository/org/codehaus/plexus/plexus-classworlds/2.4/plexus-classworlds-2.4.jar:/home/carolyn/.m2/repository/org/sonatype/sisu/sisu-inject-bean/2.3.0/sisu-inject-bean-2.3.0.jar:/home/carolyn/.m2/repository/org/sonatype/sisu/sisu-guice/3.1.0/sisu-guice-3.1.0-no_aop.jar:/home/carolyn/.m2/repository/org/sonatype/sisu/sisu-guava/0.9.9/sisu-guava-0.9.9.jar:/home/carolyn/.m2/repository/org/codehaus/plexus/plexus-compiler-api/2.2/plexus-compiler-api-2.2.jar:/home/carolyn/.m2/repository/org/codehaus/plexus/plexus-utils/3.0.8/plexus-utils-3.0.8.jar:/home/carolyn/.m2/repository/org/sonatype/plexus/plexus-build-api/0.0.7/plexus-build-api-0.0.7.jar:/home/carolyn/.m2/repository/org/antlr/antlr4/4.9.3/antlr4-4.9.3.jar:/home/carolyn/.m2/repository/org/antlr/antlr-runtime/3.5.2/antlr-runtime-3.5.2.jar:/home/carolyn/.m2/repository/org/antlr/ST4/4.3.1/ST4-4.3.1.jar:/home/carolyn/.m2/repository/org/abego/treelayout/org.abego.treelayout.core/1.0.3/org.abego.treelayout.core-1.0.3.jar:/home/carolyn/.m2/repository/org/glassfish/javax.json/1.0.4/javax.json-1.0.4.jar:/home/carolyn/.m2/repository/com/ibm/icu/icu4j/69.1/icu4j-69.1.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-project/2.2.1/maven-project-2.2.1.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-settings/2.2.1/maven-settings-2.2.1.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-profile/2.2.1/maven-profile-2.2.1.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-artifact-manager/2.2.1/maven-artifact-manager-2.2.1.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-repository-metadata/2.2.1/maven-repository-metadata-2.2.1.jar:/home/carolyn/.m2/repository/org/apache/maven/wagon/wagon-provider-api/1.0-beta-6/wagon-provider-api-1.0-beta-6.jar:/home/carolyn/.m2/repository/backport-util-concurrent/backport-util-concurrent/3.1/backport-util-concurrent-3.1.jar:/home/carolyn/.m2/repository/org/apache/maven/maven-plugin-registry/2.2.1/maven-plugin-registry-2.2.1.jar:/home/carolyn/.m2/repository/org/codehaus/plexus/plexus-interpolation/1.11/plexus-interpolation-1.11.jar:/home/carolyn/.m2/repository/org/codehaus/plexus/plexus-container-default/1.0-alpha-9-stable-1/plexus-container-default-1.0-alpha-9-stable-1.jar:/home/carolyn/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar:/home/carolyn/.m2/repository/classworlds/classworlds/1.1-alpha-2/classworlds-1.1-alpha-2.jar:/home/carolyn/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.8.2/junit-jupiter-engine-5.8.2.jar:/home/carolyn/.m2/repository/org/junit/platform/junit-platform-engine/1.8.2/junit-platform-engine-1.8.2.jar:/home/carolyn/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/home/carolyn/.m2/repository/org/junit/platform/junit-platform-commons/1.8.2/junit-platform-commons-1.8.2.jar:/home/carolyn/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.8.2/junit-jupiter-api-5.8.2.jar:/home/carolyn/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/carolyn/.m2/repository/commons-cli/commons-cli/1.5.0/commons-cli-1.5.0.jar:/home/carolyn/.m2/repository/org/slf4j/slf4j-simple/1.7.36/slf4j-simple-1.7.36.jar:/home/carolyn/.m2/repository/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/home/carolyn"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-10-21"/>
+    <property name="java.home" value="/usr/lib/jvm/java-11-openjdk-amd64"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/mnt/e/ThirdYear/compiler/exp-design"/>
+    <property name="java.vm.compressedOopsMode" value="32-bit"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment"/>
+    <property name="surefire.real.class.path" value="/mnt/e/ThirdYear/compiler/exp-design/target/surefire/surefirebooter-20251214122526124_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="11.0.29+7-post-Ubuntu-1ubuntu122.04"/>
+    <property name="user.name" value="carolyn"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="6.6.87.2-microsoft-standard-WSL2"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="localRepository" value="/home/carolyn/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://bugs.launchpad.net/ubuntu/+source/openjdk-lts"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="java.version" value="11.0.29"/>
+    <property name="user.dir" value="/mnt/e/ThirdYear/compiler/exp-design"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="java.awt.printerjob" value="sun.print.PSPrinterJob"/>
+    <property name="sun.os.patch.level" value="unknown"/>
+    <property name="java.library.path" value="/home/carolyn/miniconda3/lib:/usr/lib/wsl/lib::/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="Ubuntu"/>
+    <property name="java.vm.version" value="11.0.29+7-post-Ubuntu-1ubuntu122.04"/>
+    <property name="java.specification.maintenance.version" value="3"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="55.0"/>
+  </properties>
+  <testcase name="testDeadCodeElimination" classname="com.wei.compiler.test.OptimizerTest" time="0.404">
+    <system-out><![CDATA[
+--- 阶段五：中间代码优化 ---
+中间代码优化完成
+]]></system-out>
+  </testcase>
+  <testcase name="testConstantFolding" classname="com.wei.compiler.test.OptimizerTest" time="0.002">
+    <system-out><![CDATA[
+--- 阶段五：中间代码优化 ---
+常量传播完成
+死代码消除完成
+公共子表达式消除完成
+优化前指令数: 2
+优化后指令数: 2
+中间代码优化完成
+]]></system-out>
+  </testcase>
+  <testcase name="testOptimizerDisabled" classname="com.wei.compiler.test.OptimizerTest" time="0"/>
+  <testcase name="testCommonSubexpressionElimination" classname="com.wei.compiler.test.OptimizerTest" time="0">
+    <system-out><![CDATA[
+--- 阶段五：中间代码优化 ---
+中间代码优化完成
+]]></system-out>
+  </testcase>
+</testsuite>

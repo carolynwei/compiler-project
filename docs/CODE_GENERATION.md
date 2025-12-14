@@ -4,7 +4,7 @@
 
 代码生成模块将三地址代码 (TAC) 转换为 LLVM IR，生成可执行的目标代码。
 
-**目录位置**: `src/main/java/com/gemini/compiler/codegen/`
+**目录位置**: `src/main/java/com/wei/compiler/codegen/`
 
 **文件数量**: 1 个 Java 文件（`CodeGenerator.java`，约 3200 行）
 
@@ -266,6 +266,45 @@ br i1 %2, label %label, label %fallthrough
 store i32 %1, i32* %result, align 4
 ```
 
+### 指针运算（新增）
+
+#### 指针加整数 (ptr + int)
+
+```java
+// TAC: (ADD, ptr, int_val, result)  // result 类型为指针
+// LLVM IR （使用 getelementptr 进行偏移计算）:
+%1 = load i32*, i32** %ptr, align 8
+%2 = load i32, i32* %int_val, align 4
+%3 = getelementptr i32, i32* %1, i32 %2  // 偏移指针
+
+// 整数加指针 (int + ptr) 类似，会交换操作数顺序
+```
+
+#### 指针减整数 (ptr - int)
+
+```java
+// TAC: (SUB, ptr, int_val, result)  // result 类型为指针
+// LLVM IR （也使用 getelementptr，但用缀整数）:
+%1 = load i32*, i32** %ptr, align 8
+%2 = load i32, i32* %int_val, align 4
+%3 = sub i32 0, %2                 // 取负值（向后偏移）
+%4 = getelementptr i32, i32* %1, i32 %3
+```
+
+#### 指针差值 (ptr1 - ptr2)
+
+```java
+// TAC: (SUB, ptr1, ptr2, result)  // 两个操作数都是指针，result 类型为int
+// LLVM IR （使用 ptrtoint 转换指针为int64，然后执行整数减法）:
+%1 = load i32*, i32** %ptr1, align 8
+%2 = load i32*, i32** %ptr2, align 8
+%3 = ptrtoint i32* %1 to i64        // 指针 -> 操作数地址
+%4 = ptrtoint i32* %2 to i64
+%5 = sub i64 %3, %4                 // 整数减法
+%6 = sdiv i64 %5, 4                 // 除以元素大小 (sizeof(int))
+转换回类型
+```
+
 ---
 
 ## 内存管理策略
@@ -331,7 +370,7 @@ store i32 %1, i32* %result, align 4
 
 **🎯 代码生成模块详解**
 
-Made with ❤️ by Gemini-C Compiler Team
+Made with ❤️ by wei-C Compiler Team
 
 </div>
 

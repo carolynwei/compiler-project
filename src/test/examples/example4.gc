@@ -1,4 +1,4 @@
-/* Gemini-C 示例程序 4: 结构体和复杂控制流测试 */
+/* wei-C 示例程序 4: 结构体和复杂控制流测试 */
 struct Student {
     int id;
     int age;
@@ -17,8 +17,14 @@ int findMax(int arr[], int size) {
 
 int main() {
     struct Student students[5];
-    int scores[5] = {85, 92, 78, 96, 88};
+    int scores[5];
     
+    // 初始化数组元素（不使用数组初始化器）
+    scores[0] = 85;
+    scores[1] = 92;
+    scores[2] = 78;
+    scores[3] = 96;
+    scores[4] = 88;
     // 初始化学生信息
     for (int i = 0; i < 5; i++) {
         students[i].id = i + 1;

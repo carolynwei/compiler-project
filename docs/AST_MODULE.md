@@ -4,9 +4,9 @@
 
 AST (Abstract Syntax Tree) 模块负责将 ANTLR 解析树转换为自定义的抽象语法树，为后续的语义分析和代码生成提供结构化的程序表示。
 
-**目录位置**: `src/main/java/com/gemini/compiler/ast/`
+**目录位置**: `src/main/java/com/wei/compiler/ast/`
 
-**文件数量**: 55 个 Java 文件
+**文件数量**: 65 个 Java 文件
 
 ---
 
@@ -56,11 +56,11 @@ public ASTNode build(ParseTree parseTree) {
 }
 ```
 
-#### `visitProgram(GeminiCParser.ProgramContext ctx)`
+#### `visitProgram(WeiCParser.ProgramContext ctx)`
 构建程序根节点：
 ```java
 @Override
-public ASTNode visitProgram(GeminiCParser.ProgramContext ctx) {
+public ASTNode visitProgram(WeiCParser.ProgramContext ctx) {
     ASTNode[] declarations = new ASTNode[ctx.declaration().size()];
     for (int i = 0; i < ctx.declaration().size(); i++) {
         declarations[i] = visit(ctx.declaration(i));
@@ -70,7 +70,7 @@ public ASTNode visitProgram(GeminiCParser.ProgramContext ctx) {
 ```
 
 **设计要点**:
-- 继承 `GeminiCBaseVisitor`，使用 ANTLR Visitor 模式
+- 继承 `WeiCBaseVisitor`，使用 ANTLR Visitor 模式
 - 递归构建 AST，每个语法规则对应一个 visit 方法
 - 保留源代码位置信息
 
@@ -230,12 +230,11 @@ StatementNode
 
 **FieldDeclarationNode**: 结构体字段声明
 - 类型：`TypeNode`
-- 字段名：`String`
+- Declarator：`DeclaratorNode` (提供字段名称和数组信息)
 
 **ParameterNode**: 函数参数
 - 类型：`TypeNode`
-- 参数名：`String`
-- 数组维度：`int` (支持数组参数)
+- Declarator：`DeclaratorNode` (提供参数名称和数组信息)
 
 ---
 
@@ -323,7 +322,7 @@ public enum ASTNodeType {
 定义语言支持的数据类型：
 ```java
 public enum DataType {
-    INT, FLOAT, CHAR, STRING, VOID, STRUCT, ARRAY
+    INT, FLOAT, CHAR, STRING, VOID, STRUCT
 }
 ```
 
@@ -378,7 +377,7 @@ public enum DataType {
 
 **🌳 AST 模块详解**
 
-Made with ❤️ by Gemini-C Compiler Team
+Made with ❤️ by wei-C Compiler Team
 
 </div>
 
