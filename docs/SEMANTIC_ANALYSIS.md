@@ -323,7 +323,7 @@ private int scopeLevel;               // 作用域级别
 
 **作用**: 语义错误类型枚举。
 
-**38 种错误类型**:
+**48 种错误类型**（核心38种 + 扩展11种）:
 
 **类型检查错误 (5种)**:
 - `TYPE_MISMATCH`: 类型不匹配
@@ -360,7 +360,18 @@ private int scopeLevel;               // 作用域级别
 - `EXPECTED_CONSTANT_EXPRESSION`: 期望常量表达式
 - `REPEATED_CASE_LABEL`: 重复的case标签
 - `REPEATED_DEFAULT_LABEL`: 重复的default标签
-- `INVALID_ARRAY_DIMENSION`: 无效的数组维度
+**扩展错误 (11种)**:
+- `FLOAT_USED_AS_ARRAY_INDEX`: 浮点数不能作为数组下标
+- `IMPLICIT_FLOAT_TO_INT_CONVERSION`: 隐式浮点转整数可能丧失精度
+- `UNREACHABLE_CODE`: 不可达代码
+- `FUNCTION_CALLED_BEFORE_DECLARATION`: 函数在声明前被调用
+- `SHADOWED_VARIABLE`: 局部变量遮蔽了外层变量
+- `UNUSED_VARIABLE`: 变量已声明但未使用
+- `STRUCT_SIZE_ZERO`: 结构体大小为零
+- `VOID_PARAMETER_TYPE`: 参数类型不能为void
+- `MULTIPLE_DEFAULTS_IN_SWITCH`: switch中有多个default分支
+- `VOID_FUNCTION_RETURN_VALUE`: void函数不应该返回值
+- `POTENTIAL_NULL_POINTER`: 可能的空指针访问
 
 ---
 

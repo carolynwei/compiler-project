@@ -7,7 +7,7 @@
 |------|------|
 | 编译阶段 | 6阶段（词法→语法→语义→中间代码→优化→代码生成） |
 | AST节点 | 65个 |
-| 语义检查 | **38种错误检查** |
+| 语义检查 | **48种错误检查**（含11个扩展） |
 | 代码优化 | TAC级别优化 |
 | 测试覆盖 | 4个示例（100%通过✅） |
 
@@ -24,7 +24,7 @@
     ↓
 [阶段2] 语法分析程序 → AST（65个节点）
     ↓
-[阶段3] 语义分析程序 → 符号表 + 38种错误检查
+[阶段3] 语义分析程序 → 符号表 + 48种错误检查
     ↓
 [阶段4] 中间代码生成程序 → TAC（三地址代码）
     ↓
@@ -37,7 +37,7 @@
 
 ### 2. 语义检查和分析
 
-编译器支持**38种语义错误检查**，包括：
+编译器支持**48种语义错误检查**（核心38种+扩展11种），包括：
 - ✅ **类型检查**：类型兼容性、隐式转换验证
 - ✅ **符号表管理**：变量重复声明、未定义使用、作用域管理
 - ✅ **数组和指针**：维度检查、指针运算验证
@@ -339,7 +339,7 @@ exp-design/
 |------|------|
 | **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** | 编译器架构与实现 |
 | [AST_MODULE.md](docs/AST_MODULE.md) | AST模块详解（65个节点） |
-| [SEMANTIC_ANALYSIS.md](docs/SEMANTIC_ANALYSIS.md) | 语义分析与错误检查（38种） |
+| [SEMANTIC_ANALYSIS.md](docs/SEMANTIC_ANALYSIS.md) | 语义分析与错误检查（48种） |
 | [CODE_GENERATION.md](docs/CODE_GENERATION.md) | 代码生成流程 |
 | [POINTER_ARITHMETIC.md](docs/POINTER_ARITHMETIC.md) | 指针运算支持 |
 | [OPTIMIZER.md](docs/OPTIMIZER.md) | 代码优化 |
