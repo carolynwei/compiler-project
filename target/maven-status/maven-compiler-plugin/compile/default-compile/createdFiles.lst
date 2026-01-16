@@ -43,6 +43,7 @@ com/wei/compiler/ast/ShiftOperator.class
 com/wei/compiler/ast/EqualityExpressionNode.class
 com/wei/compiler/ast/PostfixOperator.class
 com/wei/WeiCParser$VariableDeclarationContext.class
+com/wei/compiler/optimizer/RedundantAssignmentPass.class
 com/wei/compiler/ir/TACType.class
 com/wei/WeiCParser$ReturnStatementContext.class
 com/wei/compiler/optimizer/DeadCodeEliminationPass$1.class
@@ -163,11 +164,13 @@ com/wei/compiler/semantic/SemanticErrorType.class
 com/wei/compiler/semantic/FunctionInfo.class
 com/wei/WeiCParser$ParameterContext.class
 com/wei/compiler/ast/BlockNode.class
+com/wei/compiler/optimizer/RedundantAssignmentPass$1.class
 com/wei/compiler/ast/ExpressionStatementNode.class
 com/wei/WeiCParser$DeclarationContext.class
 com/wei/compiler/codegen/CodeGenerator.class
 com/wei/compiler/semantic/SymbolTableManager$ScopeSnapshot.class
 com/wei/compiler/ast/StringLiteralNode.class
+com/wei/compiler/optimizer/CopyPropagationPass.class
 com/wei/compiler/semantic/ArrayInfo.class
 com/wei/compiler/semantic/ExpressionTypeAnalyzer$1.class
 com/wei/compiler/semantic/TypeChecker.class

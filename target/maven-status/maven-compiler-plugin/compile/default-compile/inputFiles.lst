@@ -17,6 +17,7 @@
 /workspaces/compiler-project/src/main/java/com/wei/compiler/codegen/CodeGenerator.java
 /workspaces/compiler-project/src/main/java/com/wei/compiler/ast/ShiftOperator.java
 /workspaces/compiler-project/src/main/java/com/wei/compiler/ast/PrimaryType.java
+/workspaces/compiler-project/src/main/java/com/wei/compiler/optimizer/CopyPropagationPass.java
 /workspaces/compiler-project/src/main/java/com/wei/compiler/ast/AdditiveOperator.java
 /workspaces/compiler-project/src/main/java/com/wei/compiler/ast/ParameterNode.java
 /workspaces/compiler-project/target/generated-sources/antlr4/com/wei/WeiCBaseVisitor.java
@@ -86,6 +87,7 @@
 /workspaces/compiler-project/src/main/java/com/wei/compiler/ast/AdditiveExpressionNode.java
 /workspaces/compiler-project/src/main/java/com/wei/compiler/ast/ASTNodeType.java
 /workspaces/compiler-project/src/main/java/com/wei/compiler/type/ReferenceType.java
+/workspaces/compiler-project/src/main/java/com/wei/compiler/optimizer/RedundantAssignmentPass.java
 /workspaces/compiler-project/src/main/java/com/wei/compiler/ast/DefaultStatementNode.java
 /workspaces/compiler-project/src/main/java/com/wei/compiler/ast/StringLiteralNode.java
 /workspaces/compiler-project/src/main/java/com/wei/compiler/type/SimpleType.java

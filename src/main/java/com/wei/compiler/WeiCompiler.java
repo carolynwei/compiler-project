@@ -4,6 +4,7 @@ import com.wei.compiler.ast.*;
 import com.wei.compiler.semantic.*;
 import com.wei.compiler.ir.*;
 import com.wei.compiler.codegen.*;
+import com.wei.compiler.optimizer.*;
 import com.wei.WeiCLexer;
 import com.wei.WeiCParser;
 import org.antlr.v4.runtime.*;
@@ -115,6 +116,11 @@ public class WeiCompiler {
         irGenerator.setDebugMode(this.config.isDebugIr());
         IRProgram irProgram = irGenerator.generate(ast);
         
+        // 阶段三点五：中间代码优化（新增）
+        IROptimizer optimizer = new IROptimizer(this.config.isOptimize());
+        optimizer.setDebugMode(this.config.isDebugIr());
+        irProgram = optimizer.optimize(irProgram);
+        
         // 如果启用 IR debug，保存中间代码到文件
         if (this.config.isDebugIr()) { 
             System.out.println("将中间代码输出到: " + irOutputFile);
@@ -185,7 +191,7 @@ public class WeiCompiler {
      * 编译器配置类
      */
     public static class CompilerConfig {
-        private boolean optimize = false;
+        private boolean optimize = true;  // 默认启用优化
         private String targetArchitecture = "x86-64";
         private boolean verbose = false;
 
@@ -268,13 +274,21 @@ public class WeiCompiler {
         }
         
         String inputFile = args[0];
-        String outputFile = args.length > 1 ? args[1] : "output.ll";
+        
+        // 检查第二个参数是否是输出文件或标志
+        int flagStartIndex = 1;
+        String outputFile = "output.ll";
+        
+        if (args.length > 1 && !args[1].startsWith("--")) {
+            outputFile = args[1];
+            flagStartIndex = 2;
+        }
         
         // 解析命令行选项
         boolean debugAst = false, debugSymtable = false, debugIr = false, debugCodegen = false;
-        boolean optimize = false;
+        boolean optimize = true;  // 默认启用优化
         
-        for (int i = 2; i < args.length; i++) {
+        for (int i = flagStartIndex; i < args.length; i++) {
             switch (args[i]) {
                 case "--debug-ast": debugAst = true; break;
                 case "--debug-symtable": debugSymtable = true; break;

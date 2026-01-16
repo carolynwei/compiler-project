@@ -11,13 +11,13 @@ declare void @free(i8*)
 ; 全局变量声明
 
 ; 函数定义
-define i32 @add1() {
+define i32 @main1() {
 entry:
-  ret i32 b
+  ret i32 0
 }
 
 define i32 @main() {
 entry:
-  ret i32 b
+  ret i32 0
   ret i32 0
 }

@@ -50,5 +50,16 @@ final class OptimizerUtils {
             return null;
         }
     }
+
+    /**
+     * 检查一个值是否是复杂表达式（包含特殊字符如 & [ 等）
+     * 简单值（如常数、变量名）不是复杂表达式
+     */
+    static boolean isComplexExpression(String value) {
+        if (value == null || value.isEmpty()) {
+            return false;
+        }
+        return value.contains("&") || value.contains("[") || value.contains("(");
+    }
 }
 

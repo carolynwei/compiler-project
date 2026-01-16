@@ -57,6 +57,8 @@ public class IROptimizer {
     private List<OptimizerPass> buildPassPipeline() {
         List<OptimizerPass> passes = new ArrayList<>();
         passes.add(new ConstantPropagationPass(debugMode));
+        passes.add(new CopyPropagationPass(debugMode));
+        passes.add(new RedundantAssignmentPass(debugMode));
         passes.add(new LoopInvariantHoistPass(debugMode));
         passes.add(new DeadCodeEliminationPass(debugMode));
         passes.add(new Mem2RegPass());
