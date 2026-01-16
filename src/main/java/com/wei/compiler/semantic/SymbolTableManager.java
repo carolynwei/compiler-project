@@ -17,9 +17,13 @@ public class SymbolTableManager {
     // 符号表栈，每个元素代表一个作用域
     // 栈底 (索引 0) 始终是全局作用域
     private final Stack<Map<String, SymbolEntry>> symbolTableStack;
+    // 已退出作用域的快照（按退出顺序保存），用于在最终输出中保留所有作用域历史
+    private final List<ScopeSnapshot> exitedScopeSnapshots;
     
     // 当前作用域级别 (0-based)
     private int currentScopeLevel;
+    // 用于为已退出作用域快照分配唯一 id，方便去重与追踪
+    private int nextSnapshotId;
     
     // 调试开关
     private boolean debugMode;
@@ -32,6 +36,8 @@ public class SymbolTableManager {
         this.currentScopeLevel = -1; // 初始化为 -1，第一次调用 enterScope() 后变为 0 (全局)
         this.debugMode = false;
         this.errors = new ArrayList<>();
+        this.exitedScopeSnapshots = new ArrayList<>();
+        this.nextSnapshotId = 1;
         
         // 初始化全局作用域 (Scope Level 0)
         enterScope();
@@ -57,13 +63,22 @@ public class SymbolTableManager {
         // 必须保留全局作用域 (Level 0, 栈大小 > 1)
         if (symbolTableStack.size() > 1) { 
             Map<String, SymbolEntry> currentScope = symbolTableStack.pop();
+            int poppedLevel = currentScopeLevel; // 记录被弹出的作用域级别
             currentScopeLevel--;
-            
+
+            // 仅在该作用域非空时保存快照，且做一次拷贝以确保快照独立
+            if (currentScope != null && !currentScope.isEmpty()) {
+                Map<String, SymbolEntry> snapshotCopy = new LinkedHashMap<>(currentScope);
+                exitedScopeSnapshots.add(new ScopeSnapshot(nextSnapshotId++, poppedLevel, snapshotCopy));
+            }
+
             if (debugMode) {
-                System.out.println("--- 退出作用域 " + (currentScopeLevel + 1) + " ---");
+                System.out.println("--- 退出作用域 " + (poppedLevel + 1) + " ---");
                 System.out.println("当前作用域级别: " + currentScopeLevel);
                 // 此时 peek() 是上一个作用域
-                displayCurrentScope(); 
+                if (symbolTableStack.size() > 0) {
+                    displayCurrentScope();
+                }
             }
         } else {
              // 错误：试图退出全局作用域
@@ -268,14 +283,19 @@ public class SymbolTableManager {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("=== 完整符号表 ===\n");
-        for (int i = 0; i < symbolTableStack.size(); i++) {
-            Map<String, SymbolEntry> scope = symbolTableStack.get(i);
-            sb.append("作用域 ").append(i + 1).append(":\n");
-            for (Map.Entry<String, SymbolEntry> entry : scope.entrySet()) {
-                sb.append("  ").append(entry.getValue()).append("\n");
+        // 输出已退出的作用域快照（按退出顺序）
+        if (!exitedScopeSnapshots.isEmpty()) {
+            sb.append("--- 已退出的作用域快照 (按退出顺序) ---\n");
+            for (ScopeSnapshot snap : exitedScopeSnapshots) {
+                // 快照保证非空且有有效内容（在 exitScope 中已过滤）
+                sb.append("作用域 ").append(snap.id).append(":\n");
+                for (Map.Entry<String, SymbolEntry> entry : snap.symbols.entrySet()) {
+                    sb.append("  ").append(entry.getValue()).append("\n");
+                }
+                sb.append("\n");
             }
-            sb.append("\n");
         }
+        // 不输出当前栈中的作用域，因为所有已退出的作用域都已在快照中捕获
         if (hasErrors()) {
             sb.append("=== 语义错误 ===\n");
             for (SemanticError error : errors) {
@@ -300,6 +320,26 @@ public class SymbolTableManager {
      */
     public int getSymbolTableDepth() {
         return symbolTableStack.size();
+    }
+
+    /**
+     * 已退出作用域快照的内部表示
+     */
+    private static class ScopeSnapshot {
+        final int id;
+        final int level; // 0-based
+        final Map<String, SymbolEntry> symbols;
+
+        ScopeSnapshot(int id, int level, Map<String, SymbolEntry> symbols) {
+            this.id = id;
+            this.level = level;
+            this.symbols = symbols;
+        }
+
+        String signature() {
+            if (symbols == null || symbols.isEmpty()) return "";
+            return symbols.keySet().toString();
+        }
     }
     
     /**

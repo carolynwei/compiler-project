@@ -1,4 +1,17 @@
 === 完整符号表 ===
+--- 已退出的作用域快照 (按退出顺序) ---
 作用域 1:
-  SymbolEntry[name='main', type=FUNCTION, dataType=int, kind=GLOBAL, scope=0, funcInfo=[defined:true]]
+  SymbolEntry[name='a', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
+  SymbolEntry[name='b', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
+  SymbolEntry[name='logicalNot', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
+  SymbolEntry[name='c', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
+  SymbolEntry[name='isLess', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
+  SymbolEntry[name='isEqual', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
+  SymbolEntry[name='isGreater', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
+  SymbolEntry[name='logicalAnd', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
+  SymbolEntry[name='isNotEqual', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
+  SymbolEntry[name='isLessEqual', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
+  SymbolEntry[name='result', type=VARIABLE, dataType=int, kind=LOCAL, scope=1]
+  SymbolEntry[name='isGreaterEqual', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
+  SymbolEntry[name='logicalOr', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
 

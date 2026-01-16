@@ -1,7 +1,24 @@
 === 完整符号表 ===
+--- 已退出的作用域快照 (按退出顺序) ---
 作用域 1:
-  SymbolEntry[name='add', type=FUNCTION, dataType=int, kind=GLOBAL, scope=0, funcInfo=[defined:true]]
-  SymbolEntry[name='factorial', type=FUNCTION, dataType=int, kind=GLOBAL, scope=0, funcInfo=[defined:true]]
-  SymbolEntry[name='main', type=FUNCTION, dataType=int, kind=GLOBAL, scope=0, funcInfo=[defined:true]]
-  SymbolEntry[name='multiply', type=FUNCTION, dataType=int, kind=GLOBAL, scope=0, funcInfo=[defined:true]]
+  SymbolEntry[name='a', type=PARAMETER, dataType=int, kind=PARAMETER, scope=1]
+  SymbolEntry[name='b', type=PARAMETER, dataType=int, kind=PARAMETER, scope=1]
+
+作用域 2:
+  SymbolEntry[name='a', type=PARAMETER, dataType=int, kind=PARAMETER, scope=1]
+  SymbolEntry[name='b', type=PARAMETER, dataType=int, kind=PARAMETER, scope=1]
+
+作用域 3:
+  SymbolEntry[name='n', type=PARAMETER, dataType=int, kind=PARAMETER, scope=1]
+
+作用域 4:
+  SymbolEntry[name='i', type=VARIABLE, dataType=int, kind=LOCAL, scope=2, init=true]
+
+作用域 5:
+  SymbolEntry[name='i', type=VARIABLE, dataType=int, kind=LOCAL, scope=2, init=true]
+
+作用域 6:
+  SymbolEntry[name='result', type=VARIABLE, dataType=int, kind=LOCAL, scope=1]
+  SymbolEntry[name='numbers', type=VARIABLE, dataType=int[], kind=LOCAL, scope=1]
+  SymbolEntry[name='sum', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
 

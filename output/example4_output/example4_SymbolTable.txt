@@ -1,6 +1,33 @@
 === 完整符号表 ===
+--- 已退出的作用域快照 (按退出顺序) ---
 作用域 1:
-  SymbolEntry[name='main', type=FUNCTION, dataType=int, kind=GLOBAL, scope=0, funcInfo=[defined:true]]
-  SymbolEntry[name='Student', type=STRUCT_DEFINITION, dataType=Student, kind=GLOBAL, scope=0, struct=Student]
-  SymbolEntry[name='findMax', type=FUNCTION, dataType=int, kind=GLOBAL, scope=0, funcInfo=[defined:true]]
+  SymbolEntry[name='grade', type=VARIABLE, dataType=float, kind=STRUCT_MEMBER, scope=1]
+  SymbolEntry[name='id', type=VARIABLE, dataType=int, kind=STRUCT_MEMBER, scope=1]
+  SymbolEntry[name='age', type=VARIABLE, dataType=int, kind=STRUCT_MEMBER, scope=1]
+
+作用域 2:
+  SymbolEntry[name='i', type=VARIABLE, dataType=int, kind=LOCAL, scope=2, init=true]
+
+作用域 3:
+  SymbolEntry[name='arr', type=PARAMETER, dataType=int[], kind=PARAMETER, scope=1]
+  SymbolEntry[name='size', type=PARAMETER, dataType=int, kind=PARAMETER, scope=1]
+  SymbolEntry[name='max', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
+
+作用域 4:
+  SymbolEntry[name='i', type=VARIABLE, dataType=int, kind=LOCAL, scope=2, init=true]
+
+作用域 5:
+  SymbolEntry[name='temp', type=VARIABLE, dataType=Student, kind=LOCAL, scope=4, init=true]
+
+作用域 6:
+  SymbolEntry[name='j', type=VARIABLE, dataType=int, kind=LOCAL, scope=3, init=true]
+
+作用域 7:
+  SymbolEntry[name='i', type=VARIABLE, dataType=int, kind=LOCAL, scope=2, init=true]
+
+作用域 8:
+  SymbolEntry[name='scores', type=VARIABLE, dataType=int[], kind=LOCAL, scope=1]
+  SymbolEntry[name='students', type=VARIABLE, dataType=Student[], kind=LOCAL, scope=1]
+  SymbolEntry[name='maxScore', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
+  SymbolEntry[name='choice', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
 

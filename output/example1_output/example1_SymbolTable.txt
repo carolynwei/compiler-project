@@ -1,5 +1,15 @@
 === 完整符号表 ===
+--- 已退出的作用域快照 (按退出顺序) ---
 作用域 1:
-  SymbolEntry[name='main', type=FUNCTION, dataType=int, kind=GLOBAL, scope=0, funcInfo=[defined:true]]
-  SymbolEntry[name='Point', type=STRUCT_DEFINITION, dataType=Point, kind=GLOBAL, scope=0, struct=Point]
+  SymbolEntry[name='x', type=VARIABLE, dataType=int, kind=STRUCT_MEMBER, scope=1]
+  SymbolEntry[name='y', type=VARIABLE, dataType=int, kind=STRUCT_MEMBER, scope=1]
+
+作用域 2:
+  SymbolEntry[name='i', type=VARIABLE, dataType=int, kind=LOCAL, scope=2, init=true]
+
+作用域 3:
+  SymbolEntry[name='p1', type=VARIABLE, dataType=Point, kind=LOCAL, scope=1]
+  SymbolEntry[name='count', type=VARIABLE, dataType=int, kind=LOCAL, scope=1, init=true]
+  SymbolEntry[name='sum', type=VARIABLE, dataType=float, kind=LOCAL, scope=1, init=true]
+  SymbolEntry[name='matrix', type=VARIABLE, dataType=int[][], kind=LOCAL, scope=1]
 
