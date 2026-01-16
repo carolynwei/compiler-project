@@ -6,7 +6,7 @@
 
 **目录位置**: `src/main/java/com/wei/compiler/optimizer/`
 
-**文件数量**: 9 个 Java 文件
+**文件数量**: 11 个 Java 文件（新增CopyPropagationPass和RedundantAssignmentPass）
 
 ---
 
@@ -23,6 +23,8 @@
 private List<OptimizerPass> buildPassPipeline() {
     List<OptimizerPass> passes = new ArrayList<>();
     passes.add(new ConstantPropagationPass(debugMode));      // 常量传播
+    passes.add(new CopyPropagationPass(debugMode));          // 副本传播（新增）
+    passes.add(new RedundantAssignmentPass(debugMode));      // 冗余赋值消除（新增）
     passes.add(new LoopInvariantHoistPass(debugMode));       // 循环不变式外提
     passes.add(new DeadCodeEliminationPass(debugMode));      // 死代码消除
     passes.add(new Mem2RegPass());                           // 内存到寄存器
@@ -84,7 +86,60 @@ t3 = 15
 
 ---
 
-### 4. DeadCodeEliminationPass
+### 4. CopyPropagationPass（新增）
+
+**文件**: `CopyPropagationPass.java`
+
+**作用**: 副本传播优化。追踪形如 `x = y` 的赋值，并将所有 x 的使用替换为 y。
+
+**优化原理**:
+1. **追踪副本赋值**: 识别形如 `result = temp` 的赋值
+2. **传播使用**: 将后续所有对 `result` 的使用替换为 `temp`
+3. **递归解析**: 支持副本链传播（如 a=b, b=c, 则 a 最终映射到 c）
+4. **流敏感性**: 在LABEL处清除映射以处理分支和循环
+
+**优化效果**: 减少临时变量，为死代码消除提供更多优化机会
+
+**实现示例**:
+```
+t1 = a
+result = t1   // 记录: result -> t1
+use(result)   // 替换为: use(t1)
+```
+
+---
+
+### 5. RedundantAssignmentPass（新增）
+
+**文件**: `RedundantAssignmentPass.java`
+
+**作用**: 消除冗余的连续赋值。当变量被立即覆盖时，移除前面的赋值。
+
+**消除规则**:
+- 同一变量的多个连续赋值
+- 仅保留最后一个赋值（其他为冗余）
+- 在循环和分支处停止以保证正确性
+
+**优化原理**:
+1. **前向扫描**: 对每个赋值，查找该变量的下一个定义
+2. **冗余检测**: 如果下一个定义在同一基本块中，则当前赋值冗余
+3. **移除冗余**: 跳过冗余赋值，保持控制流完整性
+
+**优化效果**: 直接减少无用赋值，通常与其他pass配合产生效果
+
+**实现示例**:
+```
+result = c     // 冗余（下一行会立即覆盖）
+result = c     // 冗余（下一行会立即覆盖）
+result = c     // 冗余（下一行会立即覆盖）
+result = b     // 保留
+  ↓ 优化后 ↓
+result = b     // 直接赋值
+```
+
+---
+
+### 6. DeadCodeEliminationPass
 
 **文件**: `DeadCodeEliminationPass.java`
 
@@ -97,7 +152,7 @@ t3 = 15
 
 ---
 
-### 5. CommonSubexpressionEliminationPass
+### 7. CommonSubexpressionEliminationPass
 
 **文件**: `CommonSubexpressionEliminationPass.java`
 
@@ -121,7 +176,31 @@ t2 = t1
 
 ---
 
-### 6. LoopInvariantHoistPass
+### 7. CommonSubexpressionEliminationPass
+
+**文件**: `CommonSubexpressionEliminationPass.java`
+
+**作用**: 公共子表达式消除。
+
+**优化规则**:
+- 识别重复计算的表达式
+- 使用临时变量存储结果
+- 替换后续相同表达式
+
+**示例**:
+```java
+// 优化前:
+t1 = a + b
+t2 = a + b
+
+// 优化后:
+t1 = a + b
+t2 = t1
+```
+
+---
+
+### 8. LoopInvariantHoistPass
 
 **文件**: `LoopInvariantHoistPass.java`
 
@@ -134,7 +213,7 @@ t2 = t1
 
 ---
 
-### 7. Mem2RegPass
+### 9. Mem2RegPass
 
 **文件**: `Mem2RegPass.java`
 
@@ -147,7 +226,7 @@ t2 = t1
 
 ---
 
-### 8. ControlFlowGraph
+### 10. ControlFlowGraph
 
 **文件**: `ControlFlowGraph.java`
 
@@ -160,15 +239,28 @@ t2 = t1
 
 ---
 
-### 9. OptimizerUtils
+### 11. OptimizerUtils
 
 **文件**: `OptimizerUtils.java`
 
 **作用**: 优化器工具类。
 
-**功能**:
-- 提供优化相关的工具方法
-- 辅助优化 Pass 实现
+**主要方法**:
+- `cloneInstruction()`: 克隆TAC指令
+- `isNumericLiteral()`: 判断是否为数字常量
+- `isComplexExpression()`: 判断是否为复杂表达式（新增）
+
+**isComplexExpression() 方法**:
+```java
+public static boolean isComplexExpression(String value) {
+    if (value == null) return false;
+    // 检查是否包含特殊字符（&、[、(等）
+    return value.contains("&") || value.contains("[") || 
+           value.contains("(") || value.contains("[");
+}
+```
+
+用于区分简单值（常数或变量名）和复杂表达式（指针、数组访问、函数调用等），CopyPropagationPass 仅在处理简单赋值时才进行传播。
 
 ---
 
@@ -176,11 +268,13 @@ t2 = t1
 
 优化 Pass 的执行顺序很重要：
 
-1. **常量传播**: 先进行常量传播，为后续优化提供基础
-2. **循环不变式外提**: 在循环优化前进行
-3. **死代码消除**: 消除无用代码
-4. **内存到寄存器**: 提升变量到寄存器
-5. **公共子表达式消除**: 最后进行，利用前面的优化结果
+1. **常量传播** (ConstantPropagationPass): 先进行常量传播，为后续优化提供基础
+2. **副本传播** (CopyPropagationPass): 追踪副本赋值，减少临时变量
+3. **冗余赋值消除** (RedundantAssignmentPass): 消除连续的冗余赋值
+4. **循环不变式外提** (LoopInvariantHoistPass): 在循环优化前进行
+5. **死代码消除** (DeadCodeEliminationPass): 消除无用代码和未使用变量
+6. **内存到寄存器** (Mem2RegPass): 提升变量到寄存器
+7. **公共子表达式消除** (CommonSubexpressionEliminationPass): 最后进行，利用前面的优化结果
 
 ---
 

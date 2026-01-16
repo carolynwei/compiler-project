@@ -84,11 +84,61 @@
 
 ### 3. 中间代码优化（TAC级别）
 
-编译器在生成 LLVM IR 前进行**TAC级别的优化**：
-- ✅ **常量传播**：识别和替换常量表达式
-- ✅ **死代码消除**：移除不可达代码和未使用变量
-- ✅ **循环优化**：循环不变式外提、内存到寄存器转换
-- ✅ **表达式优化**：公共子表达式消除
+编译器在生成 LLVM IR 前进行**TAC级别的优化**，包括以下6个优化pass：
+
+#### 优化Pass清单
+1. **ConstantPropagationPass** ✅ - 常量传播和常量折叠
+   - 识别常数定义和使用
+   - 将常数表达式替换为其值
+   - 消除冗余的常数计算
+
+2. **CopyPropagationPass** ✅ - 副本传播优化（新增）
+   - 追踪形如 `x = y` 的赋值
+   - 将所有 x 的使用替换为 y
+   - 减少不必要的临时变量
+   - 为其他优化提供更多机会
+
+3. **RedundantAssignmentPass** ✅ - 冗余赋值消除（新增）
+   - 消除连续的冗余赋值
+   - 当变量被立即覆盖时，移除前面的赋值
+   - 在循环和分支前停止优化以保证正确性
+
+4. **LoopInvariantHoistPass** ✅ - 循环不变式外提
+   - 识别循环中的不变表达式
+   - 将其移出循环体，减少重复计算
+
+5. **DeadCodeEliminationPass** ✅ - 死代码消除
+   - 移除不可达代码
+   - 使用活跃变量分析消除未使用的赋值
+   - 保留具有副作用的操作
+
+6. **Mem2RegPass** ✅ - 内存到寄存器转换
+   - 识别只被读写（无地址取用）的变量
+   - 将其从内存转换为寄存器变量
+
+7. **CommonSubexpressionEliminationPass** ✅ - 公共子表达式消除
+   - 识别重复的表达式计算
+   - 消除冗余计算，重用之前的结果
+
+#### 优化效果示例
+以 example3.gc 为例：
+- **优化前**：35 行 TAC 指令
+- **优化后**：17 行 TAC 指令
+- **优化率**：51% 的指令被消除或优化
+
+#### 管道执行顺序
+优化pass按以下顺序执行，形成优化管道：
+```
+ConstantPropagation → CopyPropagation → RedundantAssignment 
+  → LoopInvariantHoist → DeadCodeElimination 
+  → Mem2Reg → CommonSubexpressionElimination
+```
+
+这个顺序设计确保：
+- 常量传播为后续pass提供基础
+- 副本传播减少临时变量
+- 冗余赋值消除进一步清理代码
+- 死代码消除在最后清理未使用的定义
 
 ### 4. 完整的类型系统
 
